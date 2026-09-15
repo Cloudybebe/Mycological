@@ -1,0 +1,68 @@
+All Rights Reserved
+
+Copyright (c) 2026 Eli Aspinwall
+
+All Rights Reserved.
+
+1. Ownership
+
+This mod, including but not limited to its source code, compiled binaries, textures, models, sounds, documentation, and other assets (collectively, the "Mod"), is the exclusive property of the copyright holder.
+
+Except for the permissions expressly granted below, all rights are reserved.
+
+2. Permissions
+
+You are permitted to:
+
+Download and use the Mod for personal use.
+Include the unmodified, official release of the Mod in public or private Minecraft modpacks.
+Share links to the official download page or source repository.
+Modify the Mod for your own private, personal use.
+3. Restrictions
+
+You may not, without prior written permission from the copyright holder:
+
+Redistribute modified versions of the Mod.
+Publish, distribute, or publicly share modified source code or compiled versions of the Mod.
+Sell, license, rent, sublicense, or otherwise commercially exploit the Mod or any portion of it.
+Reupload the Mod to another website, launcher, or distribution platform unless expressly authorized.
+Copy substantial portions of the Mod into another project.
+Claim authorship of the Mod or any part of it.
+Remove or alter copyright notices included with the Mod.
+
+Private modifications are permitted only for your own personal use and may not be distributed in any form.
+
+4. Modpacks
+
+You may include the official, unmodified release of this Mod in Minecraft modpacks, provided that:
+
+The Mod remains unmodified.
+Proper credit is given to the original author.
+The modpack does not imply endorsement by the copyright holder.
+The Mod is not sold separately from the modpack.
+
+Donation-supported or monetized modpacks are permitted only if access to this Mod itself is not sold separately and no ownership of the Mod is claimed.
+
+5. Contributions
+
+Contributions submitted to the official repository, including pull requests, are made voluntarily.
+
+By submitting a contribution, you grant the copyright holder a perpetual, worldwide, non-exclusive, irrevocable, royalty-free license to use, modify, distribute, and incorporate your contribution into the Mod.
+
+You retain copyright to your own contributions.
+
+6. No Warranty
+
+THE MOD IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THE MOD.
+
+7. Termination
+
+Any permission granted under this license automatically terminates if its terms are violated.
+
+Upon termination, all copies of the Mod obtained under this license must cease to be distributed except where required by applicable law.
+
+8. Contact
+
+For permissions not expressly granted under this license, including requests to redistribute, modify for public release, or use the Mod in commercial projects, please contact the copyright holder.
