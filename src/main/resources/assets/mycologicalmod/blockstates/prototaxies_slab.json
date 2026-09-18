@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "mycologicalmod:block/prototaxies_slab"
+    },
+    "type=double": {
+      "model": "mycologicalmod:block/prototaxies_planks"
+    },
+    "type=top": {
+      "model": "mycologicalmod:block/prototaxies_slab_top"
+    }
+  }
+}

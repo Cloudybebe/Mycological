@@ -3,6 +3,9 @@ package net.eli.mycological.item;
 import net.eli.mycological.Mycological;
 import net.eli.mycological.block.ModBlocks;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.HangingSignItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -28,6 +31,19 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> CORDYCEPS_STEM_SPORE = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_STEM_SPORE);
 
     public static final DeferredItem<BlockItem> CORDYCEPS_MUSHROOM_BLOCK = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_MUSHROOM_BLOCK);
+
+    public static final DeferredItem<BlockItem> PROTOTAXIES_FENCE = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_FENCE);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_FENCE_GATE = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_FENCE_GATE);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_BUTTON = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_BUTTON);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_STAIRS = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_STAIRS);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_SLAB = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_SLAB);
+    public static final DeferredItem<SignItem> PROTOTAXIES_SIGN = ITEMS.register("prototaxies_sign",
+            () -> new SignItem(new Item.Properties().stacksTo(16), ModBlocks.PROTOTAXIES_SIGN.get(), ModBlocks.PROTOTAXIES_WALL_SIGN.get()));
+    public static final DeferredItem<HangingSignItem> PROTOTAXIES_HANGING_SIGN = ITEMS.register("prototaxies_hanging_sign",
+            () -> new HangingSignItem(ModBlocks.PROTOTAXIES_HANGING_SIGN.get(), ModBlocks.PROTOTAXIES_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<PrototaxiesBoatItem> PROTOTAXIES_BOAT = ITEMS.register("prototaxies_boat",
+            () -> new PrototaxiesBoatItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "mycologicalmod:block/prototaxies_planks",
+    "side": "mycologicalmod:block/prototaxies_planks",
+    "top": "mycologicalmod:block/prototaxies_planks"
+  }
+}

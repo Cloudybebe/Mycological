@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "mycologicalmod:block/prototaxies_pressure_plate"
+    },
+    "powered=true": {
+      "model": "mycologicalmod:block/prototaxies_pressure_plate_down"
+    }
+  }
+}

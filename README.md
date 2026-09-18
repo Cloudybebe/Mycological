@@ -30,6 +30,20 @@ kept stable when display names change so saved blocks and items still load.
 | `cordyceps_mushroom_block` | Supplied shelf spore top texture on all six sides; full mushroom block |
 | `cordyceps_stem` | Full block with side texture + `_top`, side texture on bottom |
 | `cordyceps_stem_spore` | Full block with side texture + `_top`, side texture on bottom |
+| `prototaxies_fence` | Vanilla fence models, plank texture, wooden fence connections |
+| `prototaxies_fence_gate` | Vanilla directional gate models, hand/redstone opening |
+| `prototaxies_pressure_plate` | Wooden pressure plate, triggered by entities |
+| `prototaxies_button` | Wooden button, wall/floor/ceiling placement, arrow activation |
+| `prototaxies_stairs` | Plank texture, all straight/inner/outer shapes, waterlogging |
+| `prototaxies_slab` | Plank texture, bottom/top/double slabs, waterlogging; double slabs drop two |
+| `prototaxies_sign` / `prototaxies_wall_sign` | Editable vanilla signs, plank texture reused in the sign atlas |
+| `prototaxies_hanging_sign` / `prototaxies_wall_hanging_sign` | Editable vanilla hanging signs, stripped-log texture reused in the sign atlas |
+
+The Prototaxies boat uses vanilla oak boat geometry and the existing plank texture.
+Signs and the boat use vanilla oak inventory icons. Their reused entity textures
+are provisional and may stretch; dedicated UV textures can replace them later.
+The trapdoor now uses directional vanilla templates and rotates both its closed
+texture and open hinge for all facings and both halves.
 
 Cordyceps stems and Prototaxies logs, wood, and spores use `SoundType.STEM`,
 the same break, step, place, hit, and fall sounds as crimson and warped stems.
@@ -39,12 +53,11 @@ placed shelf blocks in saved test worlds with the renamed items.
 
 Door inventory art uses the supplied lower-door texture because a separate
 vanilla-style door item icon was not supplied. Plants retain their authored
-colors rather than receiving vanilla biome tint. Recipes and world generation
-are not included.
+colors rather than receiving vanilla biome tint. The added woodset has crafting recipes; world generation is not included.
 
 ### Named block verification
 
-- Find all 18 registered items in the Mycological tab and place each in a test world.
+- Find all 27 registered items in the Mycological tab and place each in a test world.
 - Place log, wood, and spore blocks on all three axes; strip logs and wood and check the axis is preserved.
 - Check spore blocks use the spore top texture on both ends, including when rotated.
 - Check both wood variants use their respective side texture on all six faces.

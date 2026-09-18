@@ -17,5 +17,14 @@
   "block.mycologicalmod.cordyceps_stem": "Cordyceps Stem",
   "block.mycologicalmod.cordyceps_stem_spore": "Cordyceps Spore Stem",
   "block.mycologicalmod.prototaxies_wood": "Prototaxies Wood",
-  "block.mycologicalmod.prototaxies_stripped_wood": "Stripped Prototaxies Wood"
+  "block.mycologicalmod.prototaxies_stripped_wood": "Stripped Prototaxies Wood",
+  "block.mycologicalmod.prototaxies_fence": "Prototaxies Fence",
+  "block.mycologicalmod.prototaxies_fence_gate": "Prototaxies Fence Gate",
+  "block.mycologicalmod.prototaxies_pressure_plate": "Prototaxies Pressure Plate",
+  "block.mycologicalmod.prototaxies_button": "Prototaxies Button",
+  "block.mycologicalmod.prototaxies_stairs": "Prototaxies Stairs",
+  "block.mycologicalmod.prototaxies_slab": "Prototaxies Slab",
+  "block.mycologicalmod.prototaxies_sign": "Prototaxies Sign",
+  "block.mycologicalmod.prototaxies_hanging_sign": "Prototaxies Hanging Sign",
+  "item.mycologicalmod.prototaxies_boat": "Prototaxies Boat"
 }

@@ -4,6 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.eli.mycological.block.ModBlocks;
 import net.eli.mycological.client.SporaticSandClientExtensions;
 import net.eli.mycological.client.SporaticSporeParticle;
+import net.eli.mycological.client.PrototaxiesBoatRenderer;
+import net.eli.mycological.entity.ModEntities;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.minecraft.core.BlockPos;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -26,6 +29,11 @@ public class ExampleModClient {
         // The config screen is accessed by going to the Mods screen > clicking on your mod > clicking on config.
         // Do not forget to add translations for your config options to the en_us.json file.
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+    }
+
+    @SubscribeEvent
+    static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModEntities.PROTOTAXIES_BOAT.get(), PrototaxiesBoatRenderer::new);
     }
 
     @SubscribeEvent
@@ -61,6 +69,7 @@ public class ExampleModClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> net.minecraft.client.renderer.Sheets.addWoodType(ModBlocks.PROTOTAXIES_WOOD_TYPE));
         // Some client setup code
         Mycological.LOGGER.info("HELLO FROM CLIENT SETUP");
         Mycological.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

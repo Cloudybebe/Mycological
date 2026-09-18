@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 import net.eli.mycological.block.ModBlocks;
+import net.eli.mycological.entity.ModEntities;
 import net.eli.mycological.item.ModItems;
 import net.eli.mycological.item.ModCreativeModeTabs;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -31,6 +32,7 @@ public class Mycological {
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Mycological(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
         ModItems.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         // Register the commonSetup method for modloading

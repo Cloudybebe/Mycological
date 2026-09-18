@@ -11,6 +11,17 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -24,6 +35,8 @@ public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Mycological.MOD_ID);
     public static final DeferredRegister<MapCodec<? extends Block>> BLOCK_TYPES =
             DeferredRegister.create(Registries.BLOCK_TYPE, Mycological.MOD_ID);
+    public static final WoodType PROTOTAXIES_WOOD_TYPE = WoodType.register(
+            new WoodType(Mycological.MOD_ID + ":prototaxies", BlockSetType.OAK));
 
     public static final DeferredBlock<LeafLayerBlock> LEAF_LAYER = BLOCKS.registerBlock(
             "leaf_layer", LeafLayerBlock::new,
@@ -75,6 +88,27 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> CORDYCEPS_MUSHROOM_BLOCK = BLOCKS.registerSimpleBlock(
             "cordyceps_mushroom_block", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM));
 
+    public static final DeferredBlock<FenceBlock> PROTOTAXIES_FENCE = BLOCKS.registerBlock(
+            "prototaxies_fence", FenceBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE));
+    public static final DeferredBlock<FenceGateBlock> PROTOTAXIES_FENCE_GATE = BLOCKS.registerBlock(
+            "prototaxies_fence_gate", p -> new FenceGateBlock(PROTOTAXIES_WOOD_TYPE, p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE));
+    public static final DeferredBlock<PressurePlateBlock> PROTOTAXIES_PRESSURE_PLATE = BLOCKS.registerBlock(
+            "prototaxies_pressure_plate", p -> new PressurePlateBlock(BlockSetType.OAK, p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE));
+    public static final DeferredBlock<ButtonBlock> PROTOTAXIES_BUTTON = BLOCKS.registerBlock(
+            "prototaxies_button", p -> new ButtonBlock(BlockSetType.OAK, 30, p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON));
+    public static final DeferredBlock<StairBlock> PROTOTAXIES_STAIRS = BLOCKS.registerBlock(
+            "prototaxies_stairs", p -> new StairBlock(PROTOTAXIES_PLANKS.get().defaultBlockState(), p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS));
+    public static final DeferredBlock<SlabBlock> PROTOTAXIES_SLAB = BLOCKS.registerBlock(
+            "prototaxies_slab", SlabBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB));
+    public static final DeferredBlock<StandingSignBlock> PROTOTAXIES_SIGN = BLOCKS.registerBlock(
+            "prototaxies_sign", p -> new StandingSignBlock(PROTOTAXIES_WOOD_TYPE, p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN));
+    public static final DeferredBlock<WallSignBlock> PROTOTAXIES_WALL_SIGN = BLOCKS.registerBlock(
+            "prototaxies_wall_sign", p -> new WallSignBlock(PROTOTAXIES_WOOD_TYPE, p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).lootFrom(PROTOTAXIES_SIGN));
+    public static final DeferredBlock<CeilingHangingSignBlock> PROTOTAXIES_HANGING_SIGN = BLOCKS.registerBlock(
+            "prototaxies_hanging_sign", p -> new CeilingHangingSignBlock(PROTOTAXIES_WOOD_TYPE, p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN));
+    public static final DeferredBlock<WallHangingSignBlock> PROTOTAXIES_WALL_HANGING_SIGN = BLOCKS.registerBlock(
+            "prototaxies_wall_hanging_sign", p -> new WallHangingSignBlock(PROTOTAXIES_WOOD_TYPE, p), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).lootFrom(PROTOTAXIES_HANGING_SIGN));
+
     static {
         BLOCK_TYPES.register("sporatic_sand", () -> SporaticSandBlock.CODEC);
         BLOCK_TYPES.register("leaf_layer", () -> LeafLayerBlock.CODEC);
@@ -90,6 +124,8 @@ public final class ModBlocks {
 
     private static void addBrushableBlocks(BlockEntityTypeAddBlocksEvent event) {
         event.modify(BlockEntityType.BRUSHABLE_BLOCK, SPORATIC_SAND.get(), RED_SPORATIC_SAND.get());
+        event.modify(BlockEntityType.SIGN, PROTOTAXIES_SIGN.get(), PROTOTAXIES_WALL_SIGN.get());
+        event.modify(BlockEntityType.HANGING_SIGN, PROTOTAXIES_HANGING_SIGN.get(), PROTOTAXIES_WALL_HANGING_SIGN.get());
     }
 
     private ModBlocks() {}

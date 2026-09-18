@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "mycologicalmod:block/prototaxies_planks",
+    "side": "mycologicalmod:block/prototaxies_planks",
+    "top": "mycologicalmod:block/prototaxies_planks"
+  }
+}
