@@ -17,6 +17,6 @@ public final class SporaticSporeParticle extends TerrainParticle {
         friction = 0.98F;
         hasPhysics = false;
         lifetime = 40 + random.nextInt(30);
-        quadSize *= 0.45F;
+        quadSize *= 1.1F;
     }
 }

@@ -27,6 +27,8 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> CORDYCEPS_STEM = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_STEM);
     public static final DeferredItem<BlockItem> CORDYCEPS_STEM_SPORE = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_STEM_SPORE);
 
+    public static final DeferredItem<BlockItem> CORDYCEPS_MUSHROOM_BLOCK = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_MUSHROOM_BLOCK);
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

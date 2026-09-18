@@ -3,6 +3,9 @@ package net.eli.mycological;
 import net.minecraft.client.Minecraft;
 import net.eli.mycological.block.ModBlocks;
 import net.eli.mycological.client.SporaticSandClientExtensions;
+import net.eli.mycological.client.SporaticSporeParticle;
+import net.minecraft.core.BlockPos;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,6 +26,31 @@ public class ExampleModClient {
         // The config screen is accessed by going to the Mods screen > clicking on your mod > clicking on config.
         // Do not forget to add translations for your config options to the en_us.json file.
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+    }
+
+    @SubscribeEvent
+    static void onClientTick(ClientTickEvent.Post event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level == null || minecraft.isPaused() || minecraft.level.getGameTime() % 4 != 0) {
+            return;
+        }
+        for (var player : minecraft.level.players()) {
+            double dx = player.getX() - player.xo;
+            double dz = player.getZ() - player.zo;
+            if (!player.onGround() || player.isSpectator() || dx * dx + dz * dz < 0.0001) {
+                continue;
+            }
+            BlockPos pos = player.getOnPos();
+            var state = minecraft.level.getBlockState(pos);
+            if (state.is(ModBlocks.SPORATIC_SAND) || state.is(ModBlocks.RED_SPORATIC_SAND)) {
+                for (int i = 0; i < 3; i++) {
+                    minecraft.particleEngine.add(new SporaticSporeParticle(minecraft.level,
+                            player.getX() + (minecraft.level.random.nextDouble() - 0.5) * 0.6,
+                            pos.getY() + 1.02,
+                            player.getZ() + (minecraft.level.random.nextDouble() - 0.5) * 0.6, state, pos));
+                }
+            }
+        }
     }
 
     @SubscribeEvent

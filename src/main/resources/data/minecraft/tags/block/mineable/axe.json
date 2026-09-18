@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "mycologicalmod:cordyceps_mushroom_block",
     "mycologicalmod:prototaxies_log",
     "mycologicalmod:prototaxies_stripped_log",
     "mycologicalmod:prototaxies_planks",

@@ -27,6 +27,7 @@ kept stable when display names change so saved blocks and items still load.
 | `prototaxies_trap_door` | Wooden trapdoor with top/bottom/open states and waterlogging |
 | `sporatic_sand` | Brushable into vanilla sand; floating spore break particles |
 | `red_sporatic_sand` | Brushable into vanilla red sand; floating spore break particles |
+| `cordyceps_mushroom_block` | Supplied shelf spore top texture on all six sides; full mushroom block |
 | `cordyceps_stem` | Full block with side texture + `_top`, side texture on bottom |
 | `cordyceps_stem_spore` | Full block with side texture + `_top`, side texture on bottom |
 
@@ -43,7 +44,7 @@ are not included.
 
 ### Named block verification
 
-- Find all 17 registered items in the Mycological tab and place each in a test world.
+- Find all 18 registered items in the Mycological tab and place each in a test world.
 - Place log, wood, and spore blocks on all three axes; strip logs and wood and check the axis is preserved.
 - Check spore blocks use the spore top texture on both ends, including when rotated.
 - Check both wood variants use their respective side texture on all six faces.
@@ -53,8 +54,8 @@ are not included.
 - Attach lichen to walls, floor, and ceiling; add faces, waterlog it, and use bonemeal.
 - Brush each sand variant until it becomes vanilla sand or red sand (no treasure reward).
 - Partially brush a sand block, reload the world, and check it remains brushable.
-- Break both sand variants and check that small textured spores drift upward.
-- Remove support beneath both sand variants and check that they fall and break like suspicious sand.
+- Break both sand variants and check that larger textured spores drift upward; walking on either sand also releases spores.
+- Remove support beneath both sand variants and check that they land intact and remain brushable.
 - Check side/top texture alignment and transparent grass, lichen, door, and trapdoor pixels.
 
 ## Leaf layers

@@ -3,10 +3,8 @@ package net.eli.mycological.block;
 import com.mojang.serialization.MapCodec;
 import net.eli.mycological.Mycological;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BrushableBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -63,20 +61,22 @@ public final class ModBlocks {
     public static final DeferredBlock<TrapDoorBlock> PROTOTAXIES_TRAP_DOOR = BLOCKS.registerBlock(
             "prototaxies_trap_door", properties -> new TrapDoorBlock(BlockSetType.OAK, properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR));
-    public static final DeferredBlock<BrushableBlock> SPORATIC_SAND = BLOCKS.registerBlock(
-            "sporatic_sand", properties -> new BrushableBlock(Blocks.SAND,
-                    SoundEvents.BRUSH_SAND, SoundEvents.BRUSH_SAND_COMPLETED, properties),
+    public static final DeferredBlock<SporaticSandBlock> SPORATIC_SAND = BLOCKS.registerBlock(
+            "sporatic_sand", properties -> new SporaticSandBlock(Blocks.SAND, properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.SAND));
-    public static final DeferredBlock<BrushableBlock> RED_SPORATIC_SAND = BLOCKS.registerBlock(
-            "red_sporatic_sand", properties -> new BrushableBlock(Blocks.RED_SAND,
-                    SoundEvents.BRUSH_SAND, SoundEvents.BRUSH_SAND_COMPLETED, properties),
+    public static final DeferredBlock<SporaticSandBlock> RED_SPORATIC_SAND = BLOCKS.registerBlock(
+            "red_sporatic_sand", properties -> new SporaticSandBlock(Blocks.RED_SAND, properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.RED_SAND));
     public static final DeferredBlock<Block> CORDYCEPS_STEM = BLOCKS.registerSimpleBlock(
             "cordyceps_stem", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
     public static final DeferredBlock<Block> CORDYCEPS_STEM_SPORE = BLOCKS.registerSimpleBlock(
             "cordyceps_stem_spore", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
 
+    public static final DeferredBlock<Block> CORDYCEPS_MUSHROOM_BLOCK = BLOCKS.registerSimpleBlock(
+            "cordyceps_mushroom_block", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM));
+
     static {
+        BLOCK_TYPES.register("sporatic_sand", () -> SporaticSandBlock.CODEC);
         BLOCK_TYPES.register("leaf_layer", () -> LeafLayerBlock.CODEC);
         BLOCK_TYPES.register("cordyceps_grass", () -> CordycepsGrassBlock.CODEC);
         BLOCK_TYPES.register("cordyceps_lichen", () -> CordycepsLichenBlock.CODEC);
