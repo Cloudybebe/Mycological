@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "top": "mycologicalmod:block/prototaxies_log",
+    "top": "mycologicalmod:block/prototaxies_log_top",
     "bottom": "mycologicalmod:block/prototaxies_log_top",
     "side": "mycologicalmod:block/prototaxies_spore"
   }

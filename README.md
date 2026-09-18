@@ -7,6 +7,9 @@ Mycological
 All registered blocks appear in the Mycological creative tab. Texture suffixes
 such as `_top` and `_down` are paired model faces, not separate block items.
 Names preserve the supplied `prototaxies` and `sporatic` spelling.
+Inventory names use vanilla-style modifier ordering (Stripped Prototaxies Log
+and Wood, Short/Tall Cordyceps Grass) and Trapdoor spelling. Registry IDs are
+kept stable when display names change so saved blocks and items still load.
 
 | Block ID | Texture pairing and behavior |
 | --- | --- |
@@ -18,7 +21,7 @@ Names preserve the supplied `prototaxies` and `sporatic` spelling.
 | `prototaxies_stripped_log` | Side + `_top`; three-axis placement |
 | `prototaxies_wood` | Log side texture on all six faces; three-axis placement and axe stripping |
 | `prototaxies_stripped_wood` | Stripped log side texture on all six faces; three-axis placement |
-| `prototaxies_spore` | Spore sides, log side texture on top, log end texture on bottom; three-axis placement |
+| `prototaxies_spore` | Spore sides, log end texture on both ends; three-axis placement |
 | `prototaxies_planks` | Same texture on all six faces |
 | `prototaxies_door` | `_down` + `_top`; two-block wooden door, hand and redstone opening |
 | `prototaxies_trap_door` | Wooden trapdoor with top/bottom/open states and waterlogging |
@@ -42,7 +45,7 @@ are not included.
 
 - Find all 17 registered items in the Mycological tab and place each in a test world.
 - Place log, wood, and spore blocks on all three axes; strip logs and wood and check the axis is preserved.
-- Check spore blocks use bark on top and the log end on bottom, including when rotated.
+- Check spore blocks use the log end texture on both ends, including when rotated.
 - Check both wood variants use their respective side texture on all six faces.
 - Compare stem, log, and wood sounds to crimson or warped stems.
 - Open doors and trapdoors by hand and redstone; break both door halves and check for one item.
