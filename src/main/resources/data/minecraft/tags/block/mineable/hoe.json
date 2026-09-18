@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "mycologicalmod:leaf_layer"
+    "mycologicalmod:leaf_layer",
+    "mycologicalmod:cordyceps_shelf",
+    "mycologicalmod:cordyceps_shelf_spore"
   ]
 }

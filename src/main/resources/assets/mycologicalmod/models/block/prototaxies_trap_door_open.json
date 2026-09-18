@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/oak_trapdoor_open",
+  "textures": {
+    "texture": "mycologicalmod:block/prototaxies_trap_door"
+  },
+  "render_type": "minecraft:cutout"
+}

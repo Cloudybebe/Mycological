@@ -1,4 +1,18 @@
 {
   "block.mycologicalmod.leaf_layer": "Leaf Layer",
-  "itemGroup.mycologicalmod.mycological": "Mycological"
+  "itemGroup.mycologicalmod.mycological": "Mycological",
+  "block.mycologicalmod.cordyceps_grass_block": "Cordyceps Grass Block",
+  "block.mycologicalmod.cordyceps_grass": "Cordyceps Grass",
+  "block.mycologicalmod.cordyceps_large_grass": "Cordyceps Large Grass",
+  "block.mycologicalmod.cordyceps_lichen": "Cordyceps Lichen",
+  "block.mycologicalmod.prototaxies_log": "Prototaxies Log",
+  "block.mycologicalmod.prototaxies_stripped_log": "Prototaxies Stripped Log",
+  "block.mycologicalmod.prototaxies_spore": "Prototaxies Spore",
+  "block.mycologicalmod.prototaxies_planks": "Prototaxies Planks",
+  "block.mycologicalmod.prototaxies_door": "Prototaxies Door",
+  "block.mycologicalmod.prototaxies_trap_door": "Prototaxies Trap Door",
+  "block.mycologicalmod.sporatic_sand": "Sporatic Sand",
+  "block.mycologicalmod.red_sporatic_sand": "Red Sporatic Sand",
+  "block.mycologicalmod.cordyceps_shelf": "Cordyceps Shelf",
+  "block.mycologicalmod.cordyceps_shelf_spore": "Cordyceps Shelf Spore"
 }

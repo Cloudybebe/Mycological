@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mycologicalmod:block/prototaxies_stripped_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "mycologicalmod:block/prototaxies_stripped_log"
+    },
+    "axis=z": {
+      "model": "mycologicalmod:block/prototaxies_stripped_log_horizontal",
+      "x": 90
+    }
+  }
+}

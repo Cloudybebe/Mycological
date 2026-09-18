@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/glow_lichen",
+  "textures": {
+    "particle": "mycologicalmod:block/cordyceps_lichen",
+    "glow_lichen": "mycologicalmod:block/cordyceps_lichen"
+  },
+  "render_type": "minecraft:cutout"
+}

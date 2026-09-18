@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "mycologicalmod:block/cordyceps_large_grass_upper"
+    },
+    "half=lower": {
+      "model": "mycologicalmod:block/cordyceps_large_grass_lower"
+    }
+  }
+}

@@ -7,6 +7,9 @@ import net.eli.mycological.block.ModBlocks;
 import net.eli.mycological.item.ModItems;
 import net.eli.mycological.item.ModCreativeModeTabs;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -56,6 +59,16 @@ public class Mycological {
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
+    @SubscribeEvent
+    public void onBlockToolModification(BlockEvent.BlockToolModificationEvent event) {
+        if (event.getItemAbility() == ItemAbilities.AXE_STRIP
+                && event.getHeldItemStack().canPerformAction(ItemAbilities.AXE_STRIP)
+                && event.getState().is(ModBlocks.PROTOTAXIES_LOG)) {
+            event.setFinalState(ModBlocks.PROTOTAXIES_STRIPPED_LOG.get().defaultBlockState()
+                    .setValue(RotatedPillarBlock.AXIS, event.getState().getValue(RotatedPillarBlock.AXIS)));
+        }
+    }
+
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
 

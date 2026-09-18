@@ -2,6 +2,44 @@
 Mycological
 =======
 
+## Named asset blocks
+
+All registered blocks appear in the Mycological creative tab. Texture suffixes
+such as `_top` and `_down` are paired model faces, not separate block items.
+Names preserve the supplied `prototaxies` and `sporatic` spelling.
+
+| Block ID | Texture pairing and behavior |
+| --- | --- |
+| `cordyceps_grass_block` | Side + `_top`, vanilla dirt bottom; snowy dirt state and plant support, without grass spreading |
+| `cordyceps_grass` | Crossed, transparent foliage; bonemeal grows the matching large grass; shears drops |
+| `cordyceps_large_grass` | `_down` + `_top` form a two-block plant; shears drops |
+| `cordyceps_lichen` | Transparent, glowing, waterloggable face attachment; bonemeal spreading and shears drops |
+| `prototaxies_log` | Side + `_top`; three-axis placement and axe stripping |
+| `prototaxies_stripped_log` | Side + `_top`; three-axis placement |
+| `prototaxies_spore` | Side + `_top`; three-axis placement |
+| `prototaxies_planks` | Same texture on all six faces |
+| `prototaxies_door` | `_down` + `_top`; two-block wooden door, hand and redstone opening |
+| `prototaxies_trap_door` | Wooden trapdoor with top/bottom/open states and waterlogging |
+| `sporatic_sand` | Falling sand |
+| `red_sporatic_sand` | Falling red sand |
+| `cordyceps_shelf` | Full block with side texture + `_top`, side texture on bottom |
+| `cordyceps_shelf_spore` | Full block with side texture + `_top`, side texture on bottom |
+
+Door inventory art uses the supplied lower-door texture because a separate
+vanilla-style door item icon was not supplied. Plants retain their authored
+colors rather than receiving vanilla biome tint. Recipes and world generation
+are not included.
+
+### Named block verification
+
+- Find all 14 new items in the Mycological tab and place each in a test world.
+- Place log and spore blocks on all three axes; strip logs and check the axis is preserved.
+- Open doors and trapdoors by hand and redstone; break both door halves and check for one item.
+- Check both large-grass halves, bonemeal growth from short grass, and placement on the custom grass block.
+- Attach lichen to walls, floor, and ceiling; add faces, waterlog it, and use bonemeal.
+- Remove support beneath both sand variants and check that they fall.
+- Check side/top texture alignment and transparent grass, lichen, door, and trapdoor pixels.
+
 ## Leaf layers
 
 `mycologicalmod:leaf_layer` is available in the Mycological and Natural Blocks creative tabs,

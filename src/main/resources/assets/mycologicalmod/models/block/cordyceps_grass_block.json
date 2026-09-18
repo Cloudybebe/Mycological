@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "minecraft:block/dirt",
+    "top": "mycologicalmod:block/cordyceps_grass_block_top",
+    "side": "mycologicalmod:block/cordyceps_grass_block"
+  }
+}

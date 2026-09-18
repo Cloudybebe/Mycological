@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "mycologicalmod:prototaxies_log",
+    "mycologicalmod:prototaxies_stripped_log",
+    "mycologicalmod:prototaxies_planks",
+    "mycologicalmod:prototaxies_door",
+    "mycologicalmod:prototaxies_trap_door",
+    "mycologicalmod:prototaxies_spore"
+  ]
+}
