@@ -117,7 +117,7 @@ all items registered through `ModItems.ITEMS`, including future block items.
 - Check that vanilla snow still renders with its original snow texture.
 
 
-## Cordyceps spore and Cordycepual Poison
+## Cordyceps spore and Mithridatism
 
 `mycologicalmod:cordyceps_spore` appears in the Mycological creative tab and
 uses the supplied spore item artwork. It can be eaten at full hunger and
@@ -128,11 +128,11 @@ reduces attack damage by 4, matching Weakness I. Existing health is capped
 at the reduced maximum; the effect does not deal periodic poison damage.
 Eating more spores refreshes the duration without stacking heart loss.
 Expiry or milk restores the original attribute capacity and attack damage,
-without instantly healing the lost health. The effect icon is the supplied
+without instantly healing the lost health. The display name is Mithridatism; the registry ID remains stable for saved worlds. The effect icon is the supplied
 Cordyceps Lichen texture.
 
 A dedicated GLSL screen shader draws procedural branching vines in the
-lichen palette. Pixelated slime-mold veins and a translucent scalloped film appear immediately and grow over the first 12 seconds and retract over the
+lichen palette. Pixelated slime-mold veins, shiny root nodules, and translucent film patches appear at each vine source and spread outward over the first 12 seconds and retract over the
 last eight seconds. Refreshing the effect preserves growth; clearing it
 early smoothly retracts the vines. The paths are stable for each player.
 The center remains clear and the HUD draws above the shader. Rendering is

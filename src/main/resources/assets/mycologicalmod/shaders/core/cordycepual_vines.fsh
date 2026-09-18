@@ -20,10 +20,10 @@ float lineMask(float distance, float width, float aa) {
     return 1.0 - smoothstep(width, width + aa, distance);
 }
 
-vec2 vine(vec2 p, float root, float seed, float aa) {
+vec3 vine(vec2 p, float root, float seed, float aa) {
     float reach = (0.23 + 0.09 * randomValue(seed)) * Growth;
     if (p.y < 0.0 || p.y > reach + 0.02 || abs(p.x - root) > 0.15) {
-        return vec2(0.0);
+        return vec3(0.0);
     }
     float taper = clamp(1.0 - p.y / max(reach, 0.001), 0.0, 1.0);
     float width = 0.0022 + 0.0045 * sqrt(taper) * sqrt(Growth);
@@ -61,7 +61,26 @@ vec2 vine(vec2 p, float root, float seed, float aa) {
         }
         highlight = max(highlight, lineMask(abs(p.x - branchX + 0.001), branchWidth * 0.3, aa) * branchTip);
     }
-    return vec2(body, min(highlight, body));
+    // Rounded nodules swell where the vein emerges from its film patch.
+    float nodule = 0.0;
+    for (int n = 0; n < 3; n++) {
+        float nSeed = seed + float(n) * 5.3;
+        vec2 center = vec2(root + (randomValue(nSeed) - 0.5) * 0.027,
+                           0.006 + randomValue(nSeed + 1.0) * 0.018);
+        float radius = (0.006 + randomValue(nSeed + 2.0) * 0.007) * smoothstep(0.02, 0.18, Growth);
+        nodule = max(nodule, 1.0 - smoothstep(radius, radius + aa, length(p - center)));
+    }
+    body = max(body, nodule);
+    highlight = max(highlight, nodule * lineMask(length(p - vec2(root - 0.004, 0.015)), 0.005, aa));
+
+    // The slime film grows radially from this exact vine source, with a lumpy living front.
+    vec2 fromRoot = vec2((p.x - root) * 0.78, p.y);
+    float angle = atan(fromRoot.y, fromRoot.x);
+    float lumpyEdge = 0.009 * sin(angle * 7.0 + seed) + 0.005 * sin(angle * 13.0 - seed * 0.7);
+    float filmRadius = Growth * (0.105 + 0.035 * randomValue(seed + 8.0)) + lumpyEdge * Growth;
+    float film = 1.0 - smoothstep(filmRadius - 0.008, filmRadius + 0.003, length(fromRoot));
+    film *= smoothstep(0.005, 0.08, Growth);
+    return vec3(body, min(highlight, body), film);
 }
 
 void main() {
@@ -74,7 +93,7 @@ void main() {
     vec2 uv = (floor(screenUv * grid) + 0.5) / grid;
     float aspect = ScreenSize.x / max(ScreenSize.y, 1.0);
     float aa = 0.001;
-    vec2 masks = vec2(0.0);
+    vec3 masks = vec3(0.0);
     for (int edge = 0; edge < 4; edge++) {
         vec2 p;
         float span;
@@ -89,14 +108,14 @@ void main() {
             masks = max(masks, vine(p, root, seed, aa));
         }
     }
-    float edgeDepth = min(min(uv.x * aspect, (1.0 - uv.x) * aspect), min(uv.y, 1.0 - uv.y));
-    float ripple = 0.014 * sin(uv.x * 71.0) + 0.011 * sin(uv.y * 93.0);
-    float front = Growth * (0.13 + ripple);
-    float film = (1.0 - smoothstep(front - 0.008, front + 0.003, edgeDepth)) * Growth;
     // Palette sampled from cordyceps_lichen.png: #7b6110, #939100, #bebb12, #ffee68.
+    float film = masks.z;
     float grain = fract(sin(dot(floor(uv * grid), vec2(12.9898, 78.233))) * 43758.5453);
     vec3 color = mix(vec3(0.482, 0.380, 0.063), vec3(0.576, 0.569, 0.0), grain);
     color = mix(color, vec3(0.745, 0.733, 0.071), 0.35 + masks.y * 0.5);
-    color = mix(color, vec3(1.0, 0.933, 0.408), masks.y * (0.3 + 0.035 * sin(Time * 1.3)));
-    fragColor = vec4(color, max(masks.x * 0.88, film * 0.28) * smoothstep(0.0, 0.025, Growth));
+    float wetPulse = 0.82 + 0.18 * sin(Time * 1.3);
+    float wetSpecks = step(0.86, fract(grain * 17.0 + floor(uv.x * grid.x) * 0.071));
+    color = mix(color, vec3(1.0, 0.933, 0.408), masks.y * (0.52 + 0.08 * wetPulse));
+    color = mix(color, vec3(1.0, 0.97, 0.63), film * wetSpecks * 0.38 * wetPulse);
+    fragColor = vec4(color, max(masks.x * 0.9, film * (0.26 + wetSpecks * 0.12)) * smoothstep(0.0, 0.025, Growth));
 }
