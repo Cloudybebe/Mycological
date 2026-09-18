@@ -62,10 +62,14 @@ public class Mycological {
     @SubscribeEvent
     public void onBlockToolModification(BlockEvent.BlockToolModificationEvent event) {
         if (event.getItemAbility() == ItemAbilities.AXE_STRIP
-                && event.getHeldItemStack().canPerformAction(ItemAbilities.AXE_STRIP)
-                && event.getState().is(ModBlocks.PROTOTAXIES_LOG)) {
-            event.setFinalState(ModBlocks.PROTOTAXIES_STRIPPED_LOG.get().defaultBlockState()
-                    .setValue(RotatedPillarBlock.AXIS, event.getState().getValue(RotatedPillarBlock.AXIS)));
+                && event.getHeldItemStack().canPerformAction(ItemAbilities.AXE_STRIP)) {
+            if (event.getState().is(ModBlocks.PROTOTAXIES_LOG)) {
+                event.setFinalState(ModBlocks.PROTOTAXIES_STRIPPED_LOG.get().defaultBlockState()
+                        .setValue(RotatedPillarBlock.AXIS, event.getState().getValue(RotatedPillarBlock.AXIS)));
+            } else if (event.getState().is(ModBlocks.PROTOTAXIES_WOOD)) {
+                event.setFinalState(ModBlocks.PROTOTAXIES_STRIPPED_WOOD.get().defaultBlockState()
+                        .setValue(RotatedPillarBlock.AXIS, event.getState().getValue(RotatedPillarBlock.AXIS)));
+            }
         }
     }
 

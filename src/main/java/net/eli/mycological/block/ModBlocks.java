@@ -44,11 +44,15 @@ public final class ModBlocks {
     public static final DeferredBlock<CordycepsLichenBlock> CORDYCEPS_LICHEN = BLOCKS.registerBlock(
             "cordyceps_lichen", CordycepsLichenBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.GLOW_LICHEN));
     public static final DeferredBlock<RotatedPillarBlock> PROTOTAXIES_LOG = BLOCKS.registerBlock(
-            "prototaxies_log", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG));
+            "prototaxies_log", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).sound(SoundType.STEM));
     public static final DeferredBlock<RotatedPillarBlock> PROTOTAXIES_STRIPPED_LOG = BLOCKS.registerBlock(
-            "prototaxies_stripped_log", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG));
+            "prototaxies_stripped_log", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).sound(SoundType.STEM));
+    public static final DeferredBlock<RotatedPillarBlock> PROTOTAXIES_WOOD = BLOCKS.registerBlock(
+            "prototaxies_wood", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD).sound(SoundType.STEM));
+    public static final DeferredBlock<RotatedPillarBlock> PROTOTAXIES_STRIPPED_WOOD = BLOCKS.registerBlock(
+            "prototaxies_stripped_wood", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD).sound(SoundType.STEM));
     public static final DeferredBlock<RotatedPillarBlock> PROTOTAXIES_SPORE = BLOCKS.registerBlock(
-            "prototaxies_spore", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM));
+            "prototaxies_spore", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
     public static final DeferredBlock<Block> PROTOTAXIES_PLANKS = BLOCKS.registerSimpleBlock(
             "prototaxies_planks", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS));
     public static final DeferredBlock<DoorBlock> PROTOTAXIES_DOOR = BLOCKS.registerBlock(
@@ -63,10 +67,10 @@ public final class ModBlocks {
     public static final DeferredBlock<ColoredFallingBlock> RED_SPORATIC_SAND = BLOCKS.registerBlock(
             "red_sporatic_sand", properties -> new ColoredFallingBlock(new ColorRGBA(0xB58D6D), properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.RED_SAND));
-    public static final DeferredBlock<Block> CORDYCEPS_SHELF = BLOCKS.registerSimpleBlock(
-            "cordyceps_shelf", BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM_BLOCK));
-    public static final DeferredBlock<Block> CORDYCEPS_SHELF_SPORE = BLOCKS.registerSimpleBlock(
-            "cordyceps_shelf_spore", BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK));
+    public static final DeferredBlock<Block> CORDYCEPS_STEM = BLOCKS.registerSimpleBlock(
+            "cordyceps_stem", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
+    public static final DeferredBlock<Block> CORDYCEPS_STEM_SPORE = BLOCKS.registerSimpleBlock(
+            "cordyceps_stem_spore", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
 
     static {
         BLOCK_TYPES.register("leaf_layer", () -> LeafLayerBlock.CODEC);

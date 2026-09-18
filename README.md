@@ -16,14 +16,22 @@ Names preserve the supplied `prototaxies` and `sporatic` spelling.
 | `cordyceps_lichen` | Transparent, glowing, waterloggable face attachment; bonemeal spreading and shears drops |
 | `prototaxies_log` | Side + `_top`; three-axis placement and axe stripping |
 | `prototaxies_stripped_log` | Side + `_top`; three-axis placement |
-| `prototaxies_spore` | Side + `_top`; three-axis placement |
+| `prototaxies_wood` | Log side texture on all six faces; three-axis placement and axe stripping |
+| `prototaxies_stripped_wood` | Stripped log side texture on all six faces; three-axis placement |
+| `prototaxies_spore` | Spore sides, log side texture on top, log end texture on bottom; three-axis placement |
 | `prototaxies_planks` | Same texture on all six faces |
 | `prototaxies_door` | `_down` + `_top`; two-block wooden door, hand and redstone opening |
 | `prototaxies_trap_door` | Wooden trapdoor with top/bottom/open states and waterlogging |
 | `sporatic_sand` | Falling sand |
 | `red_sporatic_sand` | Falling red sand |
-| `cordyceps_shelf` | Full block with side texture + `_top`, side texture on bottom |
-| `cordyceps_shelf_spore` | Full block with side texture + `_top`, side texture on bottom |
+| `cordyceps_stem` | Full block with side texture + `_top`, side texture on bottom |
+| `cordyceps_stem_spore` | Full block with side texture + `_top`, side texture on bottom |
+
+Cordyceps stems and Prototaxies logs, wood, and spores use `SoundType.STEM`,
+the same break, step, place, hit, and fall sounds as crimson and warped stems.
+The former `cordyceps_shelf` and `cordyceps_shelf_spore` registry names have
+been replaced by `cordyceps_stem` and `cordyceps_stem_spore`; replace old
+placed shelf blocks in saved test worlds with the renamed items.
 
 Door inventory art uses the supplied lower-door texture because a separate
 vanilla-style door item icon was not supplied. Plants retain their authored
@@ -32,8 +40,11 @@ are not included.
 
 ### Named block verification
 
-- Find all 14 new items in the Mycological tab and place each in a test world.
-- Place log and spore blocks on all three axes; strip logs and check the axis is preserved.
+- Find all 17 registered items in the Mycological tab and place each in a test world.
+- Place log, wood, and spore blocks on all three axes; strip logs and wood and check the axis is preserved.
+- Check spore blocks use bark on top and the log end on bottom, including when rotated.
+- Check both wood variants use their respective side texture on all six faces.
+- Compare stem, log, and wood sounds to crimson or warped stems.
 - Open doors and trapdoors by hand and redstone; break both door halves and check for one item.
 - Check both large-grass halves, bonemeal growth from short grass, and placement on the custom grass block.
 - Attach lichen to walls, floor, and ceiling; add faces, waterlog it, and use bonemeal.

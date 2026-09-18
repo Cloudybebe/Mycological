@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/oak_log_horizontal",
-  "textures": {
-    "side": "mycologicalmod:block/prototaxies_spore",
-    "end": "mycologicalmod:block/prototaxies_spore_top"
-  },
-  "render_type": "minecraft:cutout"
-}

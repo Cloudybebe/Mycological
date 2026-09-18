@@ -16,14 +16,16 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> CORDYCEPS_LICHEN = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_LICHEN);
     public static final DeferredItem<BlockItem> PROTOTAXIES_LOG = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_LOG);
     public static final DeferredItem<BlockItem> PROTOTAXIES_STRIPPED_LOG = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_STRIPPED_LOG);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_WOOD = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_WOOD);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_STRIPPED_WOOD = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_STRIPPED_WOOD);
     public static final DeferredItem<BlockItem> PROTOTAXIES_SPORE = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_SPORE);
     public static final DeferredItem<BlockItem> PROTOTAXIES_PLANKS = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_PLANKS);
     public static final DeferredItem<BlockItem> PROTOTAXIES_DOOR = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_DOOR);
     public static final DeferredItem<BlockItem> PROTOTAXIES_TRAP_DOOR = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_TRAP_DOOR);
     public static final DeferredItem<BlockItem> SPORATIC_SAND = ITEMS.registerSimpleBlockItem(ModBlocks.SPORATIC_SAND);
     public static final DeferredItem<BlockItem> RED_SPORATIC_SAND = ITEMS.registerSimpleBlockItem(ModBlocks.RED_SPORATIC_SAND);
-    public static final DeferredItem<BlockItem> CORDYCEPS_SHELF = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_SHELF);
-    public static final DeferredItem<BlockItem> CORDYCEPS_SHELF_SPORE = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_SHELF_SPORE);
+    public static final DeferredItem<BlockItem> CORDYCEPS_STEM = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_STEM);
+    public static final DeferredItem<BlockItem> CORDYCEPS_STEM_SPORE = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_STEM_SPORE);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

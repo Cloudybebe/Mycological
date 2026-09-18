@@ -13,6 +13,8 @@
   "block.mycologicalmod.prototaxies_trap_door": "Prototaxies Trap Door",
   "block.mycologicalmod.sporatic_sand": "Sporatic Sand",
   "block.mycologicalmod.red_sporatic_sand": "Red Sporatic Sand",
-  "block.mycologicalmod.cordyceps_shelf": "Cordyceps Shelf",
-  "block.mycologicalmod.cordyceps_shelf_spore": "Cordyceps Shelf Spore"
+  "block.mycologicalmod.cordyceps_stem": "Cordyceps Stem",
+  "block.mycologicalmod.cordyceps_stem_spore": "Cordyceps Stem Spore",
+  "block.mycologicalmod.prototaxies_wood": "Prototaxies Wood",
+  "block.mycologicalmod.prototaxies_stripped_wood": "Prototaxies Stripped Wood"
 }

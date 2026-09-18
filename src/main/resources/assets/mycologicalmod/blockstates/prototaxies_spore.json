@@ -1,7 +1,7 @@
 {
   "variants": {
     "axis=x": {
-      "model": "mycologicalmod:block/prototaxies_spore_horizontal",
+      "model": "mycologicalmod:block/prototaxies_spore",
       "x": 90,
       "y": 90
     },
@@ -9,7 +9,7 @@
       "model": "mycologicalmod:block/prototaxies_spore"
     },
     "axis=z": {
-      "model": "mycologicalmod:block/prototaxies_spore_horizontal",
+      "model": "mycologicalmod:block/prototaxies_spore",
       "x": 90
     }
   }

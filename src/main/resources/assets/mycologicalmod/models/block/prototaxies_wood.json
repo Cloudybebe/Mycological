@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/oak_wood",
+  "textures": {
+    "side": "mycologicalmod:block/prototaxies_log",
+    "end": "mycologicalmod:block/prototaxies_log"
+  }
+}

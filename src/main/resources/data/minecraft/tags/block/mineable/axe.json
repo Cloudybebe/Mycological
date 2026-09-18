@@ -6,6 +6,8 @@
     "mycologicalmod:prototaxies_planks",
     "mycologicalmod:prototaxies_door",
     "mycologicalmod:prototaxies_trap_door",
-    "mycologicalmod:prototaxies_spore"
+    "mycologicalmod:prototaxies_spore",
+    "mycologicalmod:prototaxies_wood",
+    "mycologicalmod:prototaxies_stripped_wood"
   ]
 }
