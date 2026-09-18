@@ -26,7 +26,7 @@ vec2 vine(vec2 p, float root, float seed, float aa) {
         return vec2(0.0);
     }
     float taper = clamp(1.0 - p.y / max(reach, 0.001), 0.0, 1.0);
-    float width = 0.0012 + 0.0035 * sqrt(taper) * sqrt(Growth);
+    float width = 0.0022 + 0.0045 * sqrt(taper) * sqrt(Growth);
     float tip = 1.0 - smoothstep(reach - 0.008, reach, p.y);
     float distance = abs(p.x - stemCenter(p.y, root, seed));
     float body = lineMask(distance, width, aa) * tip;
@@ -48,23 +48,18 @@ vec2 vine(vec2 p, float root, float seed, float aa) {
         float branchTip = 1.0 - smoothstep(branchLength - 0.007, branchLength, depth);
         body = max(body, lineMask(abs(p.x - branchX), branchWidth, aa) * branchTip);
 
-        // Small pointed leaves grow along each twig instead of appearing at its final endpoint.
-        for (int l = 1; l <= 2; l++) {
-            float leafDepth = float(l) * 0.024;
-            float leafGrowth = smoothstep(leafDepth, leafDepth + 0.018, branchLength);
-            if (leafGrowth <= 0.0) {
-                continue;
+        // Forked, rounded veins replace foliage leaves.
+        for (int fork = 0; fork < 2; fork++) {
+            float anchorDepth = 0.024 + float(fork) * 0.026;
+            float forkDepth = depth - anchorDepth;
+            float forkReach = min(max(branchLength - anchorDepth, 0.0), 0.042);
+            if (forkReach > 0.001 && forkDepth >= 0.0 && forkDepth <= forkReach) {
+                float forkRoot = branchRoot + direction * (anchorDepth * 0.8 + 0.012 * sin(anchorDepth * 38.0));
+                float forkX = forkRoot + direction * forkDepth * (fork == 0 ? -0.45 : 1.6);
+                body = max(body, lineMask(abs(p.x - forkX), 0.0018 * sqrt(Growth), aa));
             }
-            float leafX = branchRoot + direction * (leafDepth * 0.8 + 0.012 * sin(leafDepth * 38.0));
-            vec2 offset = p - vec2(leafX, anchor + leafDepth);
-            vec2 axis = normalize(vec2(direction, 0.65));
-            float along = dot(offset, axis) - 0.009 * leafGrowth;
-            float across = dot(offset, vec2(-axis.y, axis.x));
-            float leaf = length(vec2(along / (0.012 * leafGrowth), across / (0.005 * leafGrowth)));
-            body = max(body, 1.0 - smoothstep(0.85, 1.1, leaf));
-            highlight = max(highlight, lineMask(abs(across), 0.0007, aa)
-                    * (1.0 - smoothstep(0.008 * leafGrowth, 0.012 * leafGrowth, abs(along))));
         }
+        highlight = max(highlight, lineMask(abs(p.x - branchX + 0.001), branchWidth * 0.3, aa) * branchTip);
     }
     return vec2(body, min(highlight, body));
 }
@@ -74,16 +69,19 @@ void main() {
         fragColor = vec4(0.0);
         return;
     }
+    // Sample the entire effect on a 270-pixel-high grid, independent of display resolution.
+    vec2 grid = vec2(270.0 * ScreenSize.x / max(ScreenSize.y, 1.0), 270.0);
+    vec2 uv = (floor(screenUv * grid) + 0.5) / grid;
     float aspect = ScreenSize.x / max(ScreenSize.y, 1.0);
-    float aa = 1.2 / max(ScreenSize.y, 1.0);
+    float aa = 0.001;
     vec2 masks = vec2(0.0);
     for (int edge = 0; edge < 4; edge++) {
         vec2 p;
         float span;
-        if (edge == 0) { p = vec2(screenUv.y, screenUv.x * aspect); span = 1.0; }
-        else if (edge == 1) { p = vec2(1.0 - screenUv.y, (1.0 - screenUv.x) * aspect); span = 1.0; }
-        else if (edge == 2) { p = vec2(screenUv.x * aspect, screenUv.y); span = aspect; }
-        else { p = vec2((1.0 - screenUv.x) * aspect, 1.0 - screenUv.y); span = aspect; }
+        if (edge == 0) { p = vec2(uv.y, uv.x * aspect); span = 1.0; }
+        else if (edge == 1) { p = vec2(1.0 - uv.y, (1.0 - uv.x) * aspect); span = 1.0; }
+        else if (edge == 2) { p = vec2(uv.x * aspect, uv.y); span = aspect; }
+        else { p = vec2((1.0 - uv.x) * aspect, 1.0 - uv.y); span = aspect; }
         if (p.y > 0.35 * Growth + 0.02) { continue; }
         for (int i = 0; i < 4; i++) {
             float seed = float(edge) * 19.3 + float(i) * 7.1 + 2.0;
@@ -91,10 +89,14 @@ void main() {
             masks = max(masks, vine(p, root, seed, aa));
         }
     }
+    float edgeDepth = min(min(uv.x * aspect, (1.0 - uv.x) * aspect), min(uv.y, 1.0 - uv.y));
+    float ripple = 0.014 * sin(uv.x * 71.0) + 0.011 * sin(uv.y * 93.0);
+    float front = Growth * (0.13 + ripple);
+    float film = (1.0 - smoothstep(front - 0.008, front + 0.003, edgeDepth)) * Growth;
     // Palette sampled from cordyceps_lichen.png: #7b6110, #939100, #bebb12, #ffee68.
-    float grain = fract(sin(dot(floor(screenUv * ScreenSize / 2.0), vec2(12.9898, 78.233))) * 43758.5453);
+    float grain = fract(sin(dot(floor(uv * grid), vec2(12.9898, 78.233))) * 43758.5453);
     vec3 color = mix(vec3(0.482, 0.380, 0.063), vec3(0.576, 0.569, 0.0), grain);
     color = mix(color, vec3(0.745, 0.733, 0.071), 0.35 + masks.y * 0.5);
     color = mix(color, vec3(1.0, 0.933, 0.408), masks.y * (0.3 + 0.035 * sin(Time * 1.3)));
-    fragColor = vec4(color, masks.x * 0.88 * smoothstep(0.0, 0.025, Growth));
+    fragColor = vec4(color, max(masks.x * 0.88, film * 0.28) * smoothstep(0.0, 0.025, Growth));
 }

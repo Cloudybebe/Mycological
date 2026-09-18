@@ -14,8 +14,8 @@ public final class VineGrowthState {
             if (!active) {
                 elapsedTicks = 0;
             }
-            elapsedTicks = Math.min(elapsedTicks + 1, 400);
-            float advancing = elapsedTicks / 400.0F;
+            elapsedTicks = Math.min(elapsedTicks + 1, 240);
+            float advancing = 0.12F + 0.88F * elapsedTicks / 240.0F;
             float retreating = infinite ? 1.0F : Math.min(1.0F, Math.max(0, remainingTicks) / 160.0F);
             target = Math.min(advancing, retreating);
         }

@@ -132,7 +132,7 @@ without instantly healing the lost health. The effect icon is the supplied
 Cordyceps Lichen texture.
 
 A dedicated GLSL screen shader draws procedural branching vines in the
-lichen palette. Vines grow over the first 20 seconds and retract over the
+lichen palette. Pixelated slime-mold veins and a translucent scalloped film appear immediately and grow over the first 12 seconds and retract over the
 last eight seconds. Refreshing the effect preserves growth; clearing it
 early smoothly retracts the vines. The paths are stable for each player.
 The center remains clear and the HUD draws above the shader. Rendering is
