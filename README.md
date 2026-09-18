@@ -57,7 +57,7 @@ colors rather than receiving vanilla biome tint. The added woodset has crafting 
 
 ### Named block verification
 
-- Find all 27 registered items in the Mycological tab and place each in a test world.
+- Find all 28 registered items in the Mycological tab and place each in a test world.
 - Place log, wood, and spore blocks on all three axes; strip logs and wood and check the axis is preserved.
 - Check spore blocks use the spore top texture on both ends, including when rotated.
 - Check both wood variants use their respective side texture on all six faces.
@@ -116,3 +116,37 @@ all items registered through `ModItems.ITEMS`, including future block items.
 - Place leaf layers beside a bright light and check that they do not melt.
 - Check that vanilla snow still renders with its original snow texture.
 
+
+## Cordyceps spore and Cordycepual Poison
+
+`mycologicalmod:cordyceps_spore` appears in the Mycological creative tab and
+uses the supplied spore item artwork. It can be eaten at full hunger and
+always applies `mycologicalmod:cordycepual_poison` for 30 seconds.
+
+The effect lowers maximum health by one full heart (2 health points) and
+reduces attack damage by 4, matching Weakness I. Existing health is capped
+at the reduced maximum; the effect does not deal periodic poison damage.
+Eating more spores refreshes the duration without stacking heart loss.
+Expiry or milk restores the original attribute capacity and attack damage,
+without instantly healing the lost health. The effect icon is the supplied
+Cordyceps Lichen texture.
+
+A dedicated GLSL screen shader draws procedural branching vines in the
+lichen palette. Vines grow over the first 20 seconds and retract over the
+last eight seconds. Refreshing the effect preserves growth; clearing it
+early smoothly retracts the vines. The paths are stable for each player.
+The center remains clear and the HUD draws above the shader. Rendering is
+first-person only and respects hidden HUD and paused singleplayer. Player
+or world changes reset the visual state. It does not replace another mod's
+world post-processing chain. Compatibility with third-party shader packs
+has not been tested.
+
+### Spore verification
+
+- Eat a spore at full hunger; check the lichen icon and 30-second effect timer.
+- Check maximum health changes from 10 hearts to 9 and attacks become weaker.
+- Eat another spore and check that heart loss stays at one heart and vines do not reset.
+- Watch vines advance and retract near expiry; check the central view and HUD remain clear.
+- Drink milk while vines are grown; check attributes restore and vines smoothly retract.
+- Switch perspectives, pause singleplayer, reload resources, die, and leave/rejoin the world.
+- Check normal maximum health and attack damage after natural expiry.

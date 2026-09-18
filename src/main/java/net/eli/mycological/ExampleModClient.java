@@ -6,6 +6,10 @@ import net.eli.mycological.client.SporaticSandClientExtensions;
 import net.eli.mycological.client.SporaticSporeParticle;
 import net.eli.mycological.client.PrototaxiesBoatRenderer;
 import net.eli.mycological.entity.ModEntities;
+import net.eli.mycological.client.CordycepualVines;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import java.io.IOException;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.minecraft.core.BlockPos;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -37,7 +41,18 @@ public class ExampleModClient {
     }
 
     @SubscribeEvent
+    static void registerShaders(RegisterShadersEvent event) throws IOException {
+        CordycepualVines.registerShader(event);
+    }
+
+    @SubscribeEvent
+    static void registerGuiLayers(RegisterGuiLayersEvent event) {
+        CordycepualVines.registerLayer(event);
+    }
+
+    @SubscribeEvent
     static void onClientTick(ClientTickEvent.Post event) {
+        CordycepualVines.tick();
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null || minecraft.isPaused() || minecraft.level.getGameTime() % 4 != 0) {
             return;
