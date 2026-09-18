@@ -13,9 +13,10 @@ stack above it. The block uses vanilla snow's selection, support,
 and placement rules, including
 the ability to replace a single layer with another block.
 
-Leaf layers use grass sounds, do not melt, and can be broken by hand. Hoes
-are the preferred mining tool. Breaking a stack drops one leaf-layer item
-per layer. Supporting surfaces follow vanilla snow's support tags; removing
+Leaf layers use grass sounds and do not melt. Only breaking with a hoe or
+shears drops leaf-layer items, one per layer; other tools and bare hands
+destroy the block without drops. Hoes are the preferred mining tool.
+Supporting surfaces follow vanilla snow's support tags; removing
 support removes the layer block.
 
 The eight model variants inherit Minecraft's seven snow height models and
@@ -24,7 +25,7 @@ No vanilla models or textures are replaced.
 
 All leaf models use cutout rendering for transparent texture pixels. Every
 layer height is passable. Players intersecting the visible leaf height receive
-light horizontal drag (a 0.98 horizontal velocity multiplier per intersecting
+moderate horizontal drag (a 0.94 horizontal velocity multiplier per intersecting
 block callback), preserving momentum and vertical movement instead of using
 powder snow's stuck-block mechanic. There is no freezing. Spectators and flying
 creative players are unaffected.
@@ -38,7 +39,8 @@ all items registered through `ModItems.ITEMS`, including future block items.
 - Check selection against vanilla snow of the same layer count.
 - Walk through all eight heights and check the mild slowdown stops outside the leaves.
 - Check transparent gaps in the placed block and inventory model.
-- Break stacks of one, four, and eight layers and check their item counts.
+- Break stacks of one, four, and eight layers with hoes and shears and check their item counts.
+- Break stacks by hand and with other tools (including Silk Touch) and check that no items drop.
 - Stack above a full leaf stack, then remove its supporting block.
 - Place leaf layers beside a bright light and check that they do not melt.
 - Check that vanilla snow still renders with its original snow texture.
