@@ -12,8 +12,10 @@ float randomValue(float seed) {
 }
 
 float stemCenter(float depth, float root, float seed) {
+    float wriggle = 0.0045 * sin(Time * 0.72 + depth * 15.0 + seed * 1.8)
+                  + 0.0020 * sin(Time * 1.13 - depth * 29.0 + seed);
     return root + 0.024 * sin(depth * 21.0 + seed)
-                + 0.012 * sin(depth * 47.0 + seed * 1.3);
+                + 0.012 * sin(depth * 47.0 + seed * 1.3) + wriggle;
 }
 
 float lineMask(float distance, float width, float aa) {
@@ -26,7 +28,7 @@ vec3 vine(vec2 p, float root, float seed, float aa) {
         return vec3(0.0);
     }
     float taper = clamp(1.0 - p.y / max(reach, 0.001), 0.0, 1.0);
-    float width = 0.0022 + 0.0045 * sqrt(taper) * sqrt(Growth);
+    float width = 0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth);
     float tip = 1.0 - smoothstep(reach - 0.008, reach, p.y);
     float distance = abs(p.x - stemCenter(p.y, root, seed));
     float body = lineMask(distance, width, aa) * tip;
@@ -43,8 +45,9 @@ vec3 vine(vec2 p, float root, float seed, float aa) {
         }
         float direction = (b % 2 == 0) ? -1.0 : 1.0;
         float branchRoot = stemCenter(anchor, root, seed);
-        float branchX = branchRoot + direction * (depth * 0.8 + 0.012 * sin(depth * 38.0));
-        float branchWidth = (0.001 + 0.002 * (1.0 - clamp(depth / branchLength, 0.0, 1.0))) * sqrt(Growth);
+        float branchWriggle = 0.0032 * sin(Time * 0.9 + depth * 31.0 + branchSeed);
+        float branchX = branchRoot + direction * (depth * 0.8 + 0.012 * sin(depth * 38.0)) + branchWriggle;
+        float branchWidth = (0.0022 + 0.0034 * (1.0 - clamp(depth / branchLength, 0.0, 1.0))) * sqrt(Growth);
         float branchTip = 1.0 - smoothstep(branchLength - 0.007, branchLength, depth);
         body = max(body, lineMask(abs(p.x - branchX), branchWidth, aa) * branchTip);
 
@@ -56,7 +59,7 @@ vec3 vine(vec2 p, float root, float seed, float aa) {
             if (forkReach > 0.001 && forkDepth >= 0.0 && forkDepth <= forkReach) {
                 float forkRoot = branchRoot + direction * (anchorDepth * 0.8 + 0.012 * sin(anchorDepth * 38.0));
                 float forkX = forkRoot + direction * forkDepth * (fork == 0 ? -0.45 : 1.6);
-                body = max(body, lineMask(abs(p.x - forkX), 0.0018 * sqrt(Growth), aa));
+                body = max(body, lineMask(abs(p.x - forkX), 0.0030 * sqrt(Growth), aa));
             }
         }
         highlight = max(highlight, lineMask(abs(p.x - branchX + 0.001), branchWidth * 0.3, aa) * branchTip);
@@ -67,7 +70,7 @@ vec3 vine(vec2 p, float root, float seed, float aa) {
         float nSeed = seed + float(n) * 5.3;
         vec2 center = vec2(root + (randomValue(nSeed) - 0.5) * 0.027,
                            0.006 + randomValue(nSeed + 1.0) * 0.018);
-        float radius = (0.006 + randomValue(nSeed + 2.0) * 0.007) * smoothstep(0.02, 0.18, Growth);
+        float radius = (0.008 + randomValue(nSeed + 2.0) * 0.009) * smoothstep(0.02, 0.18, Growth);
         nodule = max(nodule, 1.0 - smoothstep(radius, radius + aa, length(p - center)));
     }
     body = max(body, nodule);
@@ -111,8 +114,11 @@ void main() {
     // Palette sampled from cordyceps_lichen.png: #7b6110, #939100, #bebb12, #ffee68.
     float film = masks.z;
     float grain = fract(sin(dot(floor(uv * grid), vec2(12.9898, 78.233))) * 43758.5453);
-    vec3 color = mix(vec3(0.482, 0.380, 0.063), vec3(0.576, 0.569, 0.0), grain);
-    color = mix(color, vec3(0.745, 0.733, 0.071), 0.35 + masks.y * 0.5);
+    vec3 darkest = vec3(0.482, 0.380, 0.063);
+    vec3 olive = vec3(0.576, 0.569, 0.0);
+    vec3 yellow = vec3(0.745, 0.733, 0.071);
+    vec3 color = mix(darkest, olive, 0.3 + grain * 0.42);
+    color = mix(color, yellow, 0.25 + masks.y * 0.58);
     float wetPulse = 0.82 + 0.18 * sin(Time * 1.3);
     float wetSpecks = step(0.86, fract(grain * 17.0 + floor(uv.x * grid.x) * 0.071));
     color = mix(color, vec3(1.0, 0.933, 0.408), masks.y * (0.52 + 0.08 * wetPulse));
