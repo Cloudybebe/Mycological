@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 import net.eli.mycological.block.ModBlocks;
 import net.eli.mycological.item.ModItems;
+import net.eli.mycological.item.ModCreativeModeTabs;
 import net.minecraft.world.item.CreativeModeTabs;
 
 import net.neoforged.bus.api.IEventBus;
@@ -28,6 +29,7 @@ public class Mycological {
     public Mycological(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 

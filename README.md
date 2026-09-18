@@ -4,7 +4,7 @@ Mycological
 
 ## Leaf layers
 
-`mycologicalmod:leaf_layer` is available in the Natural Blocks creative tab,
+`mycologicalmod:leaf_layer` is available in the Mycological and Natural Blocks creative tabs,
 or with `/give @s mycologicalmod:leaf_layer`.
 
 Place it on a supported surface, then use more leaf layers on its top face
@@ -21,6 +21,9 @@ support removes the layer block.
 The eight model variants inherit Minecraft's seven snow height models and
 full snow-block model, with the leaf texture assigned in the mod namespace.
 No vanilla models or textures are replaced.
+
+The Mycological tab uses the leaf layer as its icon and automatically includes
+all items registered through `ModItems.ITEMS`, including future block items.
 
 ### In-game verification
 
