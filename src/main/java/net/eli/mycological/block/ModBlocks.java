@@ -3,20 +3,22 @@ package net.eli.mycological.block;
 import com.mojang.serialization.MapCodec;
 import net.eli.mycological.Mycological;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ColoredFallingBlock;
+import net.minecraft.world.level.block.BrushableBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -61,11 +63,13 @@ public final class ModBlocks {
     public static final DeferredBlock<TrapDoorBlock> PROTOTAXIES_TRAP_DOOR = BLOCKS.registerBlock(
             "prototaxies_trap_door", properties -> new TrapDoorBlock(BlockSetType.OAK, properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR));
-    public static final DeferredBlock<ColoredFallingBlock> SPORATIC_SAND = BLOCKS.registerBlock(
-            "sporatic_sand", properties -> new ColoredFallingBlock(new ColorRGBA(0xD5AD83), properties),
+    public static final DeferredBlock<BrushableBlock> SPORATIC_SAND = BLOCKS.registerBlock(
+            "sporatic_sand", properties -> new BrushableBlock(Blocks.SAND,
+                    SoundEvents.BRUSH_SAND, SoundEvents.BRUSH_SAND_COMPLETED, properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.SAND));
-    public static final DeferredBlock<ColoredFallingBlock> RED_SPORATIC_SAND = BLOCKS.registerBlock(
-            "red_sporatic_sand", properties -> new ColoredFallingBlock(new ColorRGBA(0xB58D6D), properties),
+    public static final DeferredBlock<BrushableBlock> RED_SPORATIC_SAND = BLOCKS.registerBlock(
+            "red_sporatic_sand", properties -> new BrushableBlock(Blocks.RED_SAND,
+                    SoundEvents.BRUSH_SAND, SoundEvents.BRUSH_SAND_COMPLETED, properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.RED_SAND));
     public static final DeferredBlock<Block> CORDYCEPS_STEM = BLOCKS.registerSimpleBlock(
             "cordyceps_stem", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
@@ -81,6 +85,11 @@ public final class ModBlocks {
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
         BLOCK_TYPES.register(eventBus);
+        eventBus.addListener(ModBlocks::addBrushableBlocks);
+    }
+
+    private static void addBrushableBlocks(BlockEntityTypeAddBlocksEvent event) {
+        event.modify(BlockEntityType.BRUSHABLE_BLOCK, SPORATIC_SAND.get(), RED_SPORATIC_SAND.get());
     }
 
     private ModBlocks() {}

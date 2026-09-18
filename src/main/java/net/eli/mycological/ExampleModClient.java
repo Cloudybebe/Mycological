@@ -1,6 +1,9 @@
 package net.eli.mycological;
 
 import net.minecraft.client.Minecraft;
+import net.eli.mycological.block.ModBlocks;
+import net.eli.mycological.client.SporaticSandClientExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -20,6 +23,12 @@ public class ExampleModClient {
         // The config screen is accessed by going to the Mods screen > clicking on your mod > clicking on config.
         // Do not forget to add translations for your config options to the en_us.json file.
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+    }
+
+    @SubscribeEvent
+    static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerBlock(new SporaticSandClientExtensions(),
+                ModBlocks.SPORATIC_SAND.get(), ModBlocks.RED_SPORATIC_SAND.get());
     }
 
     @SubscribeEvent
