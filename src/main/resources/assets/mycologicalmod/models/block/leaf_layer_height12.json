@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "minecraft:block/snow_height12",
   "textures": {
     "texture": "mycologicalmod:block/leaf_layer",

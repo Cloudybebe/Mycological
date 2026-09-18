@@ -22,6 +22,8 @@ public final class ModBlocks {
                     .mapColor(MapColor.COLOR_BROWN)
                     .strength(0.1F)
                     .sound(SoundType.GRASS)
+                    .isSuffocating((state, level, pos) -> false)
+                    .isViewBlocking((state, level, pos) -> false)
                     .noOcclusion());
 
     static {
