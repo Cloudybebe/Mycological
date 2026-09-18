@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -54,8 +53,8 @@ public class LeafLayerBlock extends SnowLayerBlock {
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof Player player && !player.isSpectator() && !player.getAbilities().flying
                 && entity.getBoundingBox().minY < pos.getY() + state.getValue(LAYERS) / 8.0) {
-            // Powder snow uses 0.9 horizontally; leaf litter has gentler drag and no vertical multiplier.
-            entity.makeStuckInBlock(state, new Vec3(0.95, 1.0, 0.95));
+            // Apply light horizontal drag without the stuck-block mechanic's momentum reset.
+            entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.98, 1.0, 0.98));
         }
     }
 

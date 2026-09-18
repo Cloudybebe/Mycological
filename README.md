@@ -24,8 +24,10 @@ No vanilla models or textures are replaced.
 
 All leaf models use cutout rendering for transparent texture pixels. Every
 layer height is passable. Players intersecting the visible leaf height receive
-mild horizontal drag (0.95 compared with powder snow's 0.9), with no vertical
-speed multiplier or freezing. Spectators and flying creative players are unaffected.
+light horizontal drag (a 0.98 horizontal velocity multiplier per intersecting
+block callback), preserving momentum and vertical movement instead of using
+powder snow's stuck-block mechanic. There is no freezing. Spectators and flying
+creative players are unaffected.
 
 The Mycological tab uses the leaf layer as its icon and automatically includes
 all items registered through `ModItems.ITEMS`, including future block items.
