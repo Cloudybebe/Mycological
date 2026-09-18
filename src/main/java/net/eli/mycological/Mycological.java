@@ -3,6 +3,10 @@ package net.eli.mycological;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
+import net.eli.mycological.block.ModBlocks;
+import net.eli.mycological.item.ModItems;
+import net.eli.mycological.item.ModCreativeModeTabs;
+import net.minecraft.world.item.CreativeModeTabs;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,6 +27,9 @@ public class Mycological {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Mycological(IEventBus modEventBus, ModContainer modContainer) {
+        ModBlocks.register(modEventBus);
+        ModItems.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -41,9 +48,11 @@ public class Mycological {
 
     }
 
-    // Add the example block item to the building blocks tab
+    // Add leaf litter to the natural blocks tab.
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+            event.accept(ModItems.LEAF_LAYER);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
