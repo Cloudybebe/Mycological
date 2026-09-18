@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/snow_height10",
+  "textures": {
+    "texture": "mycologicalmod:block/leaf_layer",
+    "particle": "mycologicalmod:block/leaf_layer"
+  }
+}

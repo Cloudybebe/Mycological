@@ -1,0 +1,125 @@
+{
+  "pools": [
+    {
+      "entries": [
+        {
+          "name": "mycologicalmod:leaf_layer",
+          "functions": [
+            {
+              "count": 1,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "1"
+                  }
+                }
+              ]
+            },
+            {
+              "count": 2,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "2"
+                  }
+                }
+              ]
+            },
+            {
+              "count": 3,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "3"
+                  }
+                }
+              ]
+            },
+            {
+              "count": 4,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "count": 5,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "5"
+                  }
+                }
+              ]
+            },
+            {
+              "count": 6,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "6"
+                  }
+                }
+              ]
+            },
+            {
+              "count": 7,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "7"
+                  }
+                }
+              ]
+            },
+            {
+              "count": 8,
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "mycologicalmod:leaf_layer",
+                  "properties": {
+                    "layers": "8"
+                  }
+                }
+              ]
+            }
+          ],
+          "type": "minecraft:item"
+        }
+      ],
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ],
+  "type": "minecraft:block"
+}
