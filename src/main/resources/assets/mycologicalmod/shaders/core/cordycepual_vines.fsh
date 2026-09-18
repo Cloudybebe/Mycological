@@ -11,9 +11,11 @@ float randomValue(float seed) {
     return fract(sin(seed * 127.1 + Seed * 91.7) * 43758.5453);
 }
 
-float stemCenter(float depth, float root, float seed) {
-    float wriggle = 0.0045 * sin(Time * 0.72 + depth * 15.0 + seed * 1.8)
-                  + 0.0020 * sin(Time * 1.13 - depth * 29.0 + seed);
+float stemCenter(float depth, float root, float seed, float reach) {
+    float nearTip = smoothstep(0.42, 1.0, depth / max(reach, 0.001));
+    float wriggleAmount = 0.0025 + 0.0075 * nearTip;
+    float wriggle = wriggleAmount * sin(Time * 0.78 + depth * 18.0 + seed * 1.8)
+                  + wriggleAmount * 0.42 * sin(Time * 1.31 - depth * 34.0 + seed);
     return root + 0.024 * sin(depth * 21.0 + seed)
                 + 0.012 * sin(depth * 47.0 + seed * 1.3) + wriggle;
 }
@@ -28,11 +30,11 @@ vec3 vine(vec2 p, float root, float seed, float aa) {
         return vec3(0.0);
     }
     float taper = clamp(1.0 - p.y / max(reach, 0.001), 0.0, 1.0);
-    float width = 0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth);
-    float tip = 1.0 - smoothstep(reach - 0.008, reach, p.y);
-    float distance = abs(p.x - stemCenter(p.y, root, seed));
-    float body = lineMask(distance, width, aa) * tip;
-    float highlight = lineMask(distance, width * 0.38, aa) * tip;
+    float pointTaper = smoothstep(0.0, 0.035, reach - p.y);
+    float width = (0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth)) * sqrt(pointTaper);
+    float distance = abs(p.x - stemCenter(p.y, root, seed, reach));
+    float body = lineMask(distance, width, aa) * step(p.y, reach);
+    float highlight = lineMask(distance, width * 0.38, aa) * step(p.y, reach);
 
     // Each twig extends from its existing parent; lowering Growth retracts the same paths.
     for (int b = 0; b < 4; b++) {
@@ -44,7 +46,7 @@ vec3 vine(vec2 p, float root, float seed, float aa) {
             continue;
         }
         float direction = (b % 2 == 0) ? -1.0 : 1.0;
-        float branchRoot = stemCenter(anchor, root, seed);
+        float branchRoot = stemCenter(anchor, root, seed, reach);
         float branchWriggle = 0.0032 * sin(Time * 0.9 + depth * 31.0 + branchSeed);
         float branchX = branchRoot + direction * (depth * 0.8 + 0.012 * sin(depth * 38.0)) + branchWriggle;
         float branchWidth = (0.0022 + 0.0034 * (1.0 - clamp(depth / branchLength, 0.0, 1.0))) * sqrt(Growth);
