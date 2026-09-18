@@ -51,7 +51,8 @@ public class LeafLayerBlock extends SnowLayerBlock {
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (entity instanceof Player player && !player.isSpectator() && !player.getAbilities().flying
+        if (state.getValue(LAYERS) > 1
+                && entity instanceof Player player && !player.isSpectator() && !player.getAbilities().flying
                 && entity.getBoundingBox().minY < pos.getY() + state.getValue(LAYERS) / 8.0) {
             // Apply moderate horizontal drag without the stuck-block mechanic's momentum reset.
             entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.94, 1.0, 0.94));
