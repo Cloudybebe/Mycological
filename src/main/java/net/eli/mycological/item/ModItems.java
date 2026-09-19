@@ -23,6 +23,8 @@ public final class ModItems {
             () -> new MithridatismSporeItem(3, new Item.Properties().food(SPORE_FOOD)));
     public static final DeferredItem<Item> CORDYCEPS_SPORE_STAGE_4 = ITEMS.register("cordyceps_spore_stage_4",
             () -> new MithridatismSporeItem(4, new Item.Properties().food(SPORE_FOOD)));
+    public static final DeferredItem<Item> TOX_SCREEN = ITEMS.registerSimpleItem("tox_screen",
+            new Item.Properties().stacksTo(1));
     public static final DeferredItem<BlockItem> LEAF_LAYER = ITEMS.registerSimpleBlockItem(ModBlocks.LEAF_LAYER);
     public static final DeferredItem<BlockItem> CORDYCEPS_GRASS_BLOCK = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_GRASS_BLOCK);
     public static final DeferredItem<BlockItem> CORDYCEPS_GRASS = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_GRASS);

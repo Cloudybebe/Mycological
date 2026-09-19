@@ -2,6 +2,7 @@ package net.eli.mycological.attachment;
 
 import com.mojang.serialization.Codec;
 import net.eli.mycological.Mycological;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -16,6 +17,7 @@ public final class ModAttachments {
             ATTACHMENTS.register("mithridatism_stage", () -> AttachmentType.builder(() -> 0)
                     .serialize(Codec.intRange(0, 4))
                     .copyOnDeath()
+                    .sync(ByteBufCodecs.VAR_INT)
                     .build());
 
     public static void register(IEventBus eventBus) {

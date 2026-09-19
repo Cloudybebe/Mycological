@@ -2,6 +2,8 @@ package net.eli.mycological;
 
 import net.minecraft.client.Minecraft;
 import net.eli.mycological.block.ModBlocks;
+import net.eli.mycological.attachment.ModAttachments;
+import net.eli.mycological.item.ModItems;
 import net.eli.mycological.client.SporaticSandClientExtensions;
 import net.eli.mycological.client.SporaticSporeParticle;
 import net.eli.mycological.client.PrototaxiesBoatRenderer;
@@ -12,6 +14,9 @@ import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import java.io.IOException;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.api.distmarker.Dist;
@@ -84,7 +89,17 @@ public class ExampleModClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> net.minecraft.client.renderer.Sheets.addWoodType(ModBlocks.PROTOTAXIES_WOOD_TYPE));
+        event.enqueueWork(() -> {
+            net.minecraft.client.renderer.Sheets.addWoodType(ModBlocks.PROTOTAXIES_WOOD_TYPE);
+            ItemProperties.register(ModItems.TOX_SCREEN.get(),
+                    ResourceLocation.fromNamespaceAndPath(Mycological.MOD_ID, "mithridatism_stage"),
+                    (stack, level, entity, seed) -> {
+                        Player player = entity instanceof Player renderedPlayer
+                                ? renderedPlayer : Minecraft.getInstance().player;
+                        return player == null ? 0.0F
+                                : player.getData(ModAttachments.MITHRIDATISM_STAGE) / 4.0F;
+                    });
+        });
         // Some client setup code
         Mycological.LOGGER.info("HELLO FROM CLIENT SETUP");
         Mycological.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

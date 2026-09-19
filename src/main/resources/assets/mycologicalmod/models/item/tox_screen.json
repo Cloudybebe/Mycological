@@ -1,0 +1,10 @@
+{
+  "parent":"minecraft:item/generated",
+  "textures":{"layer0":"mycologicalmod:item/tox_screen_0"},
+  "overrides":[
+    {"predicate":{"mycologicalmod:mithridatism_stage":0.25},"model":"mycologicalmod:item/tox_screen_stage_1"},
+    {"predicate":{"mycologicalmod:mithridatism_stage":0.5},"model":"mycologicalmod:item/tox_screen_stage_2"},
+    {"predicate":{"mycologicalmod:mithridatism_stage":0.75},"model":"mycologicalmod:item/tox_screen_stage_3"},
+    {"predicate":{"mycologicalmod:mithridatism_stage":1.0},"model":"mycologicalmod:item/tox_screen_stage_4"}
+  ]
+}
