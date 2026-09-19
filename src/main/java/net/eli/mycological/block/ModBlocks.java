@@ -69,7 +69,8 @@ public final class ModBlocks {
             "prototaxies_spore", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
     public static final DeferredBlock<PrototaxiesSproutBlock> PROTOTAXIES_SPROUT_SMALL = BLOCKS.registerBlock(
             "prototaxies_sprout_small", PrototaxiesSproutBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.HANGING_ROOTS));
+            BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FUNGUS)
+                    .offsetType(BlockBehaviour.OffsetType.NONE));
     public static final DeferredBlock<Block> PROTOTAXIES_PLANKS = BLOCKS.registerSimpleBlock(
             "prototaxies_planks", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS));
     public static final DeferredBlock<DoorBlock> PROTOTAXIES_DOOR = BLOCKS.registerBlock(

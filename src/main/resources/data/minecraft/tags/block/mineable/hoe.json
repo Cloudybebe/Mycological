@@ -3,7 +3,6 @@
   "values": [
     "mycologicalmod:leaf_layer",
     "mycologicalmod:cordyceps_stem",
-    "mycologicalmod:cordyceps_stem_spore",
-    "mycologicalmod:prototaxies_sprout_small"
+    "mycologicalmod:cordyceps_stem_spore"
   ]
 }
