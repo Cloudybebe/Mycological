@@ -25,6 +25,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(Mycological.MOD_ID)
@@ -79,6 +80,16 @@ public class Mycological {
                 event.setFinalState(ModBlocks.PROTOTAXIES_STRIPPED_WOOD.get().defaultBlockState()
                         .setValue(RotatedPillarBlock.AXIS, event.getState().getValue(RotatedPillarBlock.AXIS)));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerTick(PlayerTickEvent.Post event) {
+        var player = event.getEntity();
+        if (!player.level().isClientSide()
+                && player.getData(ModAttachments.MITHRIDATISM_STAGE) == 4
+                && !player.hasEffect(ModEffects.CORDYCEPUAL_POISON)) {
+            player.setData(ModAttachments.MITHRIDATISM_STAGE, 0);
         }
     }
 

@@ -9,6 +9,7 @@ import net.eli.mycological.client.SporaticSporeParticle;
 import net.eli.mycological.client.PrototaxiesBoatRenderer;
 import net.eli.mycological.entity.ModEntities;
 import net.eli.mycological.client.CordycepualVines;
+import net.eli.mycological.effect.ModEffects;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import java.io.IOException;
@@ -96,8 +97,20 @@ public class ExampleModClient {
                     (stack, level, entity, seed) -> {
                         Player player = entity instanceof Player renderedPlayer
                                 ? renderedPlayer : Minecraft.getInstance().player;
-                        return player == null ? 0.0F
-                                : player.getData(ModAttachments.MITHRIDATISM_STAGE) / 4.0F;
+                        if (player == null) {
+                            return 0.0F;
+                        }
+
+                        int stage = player.getData(ModAttachments.MITHRIDATISM_STAGE);
+                        if (stage == 4) {
+                            var effect = player.getEffect(ModEffects.CORDYCEPUAL_POISON);
+                            if (effect == null) {
+                                stage = 0;
+                            } else if (effect.getDuration() <= 8 * 20) {
+                                stage = Math.max(1, (effect.getDuration() - 1) / (2 * 20) + 1);
+                            }
+                        }
+                        return stage / 4.0F;
                     });
         });
         // Some client setup code
