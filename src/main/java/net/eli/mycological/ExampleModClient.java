@@ -9,6 +9,7 @@ import net.eli.mycological.client.PrototaxiesBoatRenderer;
 import net.eli.mycological.entity.ModEntities;
 import net.eli.mycological.client.CordycepualVines;
 import net.eli.mycological.client.ToxScreenHud;
+import net.eli.mycological.effect.ModEffects;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import java.io.IOException;
@@ -17,8 +18,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientMobEffectExtensions;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -87,6 +90,17 @@ public class ExampleModClient {
     static void registerClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerBlock(new SporaticSandClientExtensions(),
                 ModBlocks.SPORATIC_SAND.get(), ModBlocks.RED_SPORATIC_SAND.get());
+        event.registerMobEffect(new IClientMobEffectExtensions() {
+            @Override
+            public boolean isVisibleInInventory(MobEffectInstance instance) {
+                return false;
+            }
+
+            @Override
+            public boolean isVisibleInGui(MobEffectInstance instance) {
+                return false;
+            }
+        }, ModEffects.CORDYCEPUAL_POISON);
     }
 
     @SubscribeEvent

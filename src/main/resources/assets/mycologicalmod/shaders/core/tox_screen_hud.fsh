@@ -67,7 +67,30 @@ void main() {
 
     shade -= darkBubble * 0.34;
     shade += brightRim * 0.25 + popRing * 0.34;
+
+    // A dense blood-colored source billows upward into thinner, branching clouds.
+    float fromBottom = 48.0 - pixel.y;
+    float plumeWarp = sin(pixel.x * 0.82 + Time * 0.72) * 2.6
+            + sin(pixel.y * 0.31 - Time * 0.46) * 2.0
+            + sin((pixel.x + pixel.y) * 0.43 + Time * 0.29) * 1.2;
+    float bloodReach = 7.0 + Stage * 5.2 + 2.2 * sin(Time * 0.34);
+    float bloodBody = 1.0 - smoothstep(bloodReach * 0.42, bloodReach, fromBottom + plumeWarp);
+    float tendrilNoise = hash11(floor(pixel.x * 0.5) * 11.0
+            + floor((pixel.y - Time * 1.3) * 0.25) * 23.0);
+    float tendrils = (1.0 - smoothstep(bloodReach, bloodReach + 8.0,
+            fromBottom + plumeWarp * 1.5)) * smoothstep(0.48, 0.82, tendrilNoise);
+    float blood = clamp(max(bloodBody, tendrils * 0.72), 0.0, 1.0);
+
+    vec3 liquidColor = palette(clamp(shade, 0.0, 1.0));
+    vec3 darkBlood = vec3(0.255, 0.016, 0.010);
+    vec3 bloodRed = vec3(0.680, 0.035, 0.018);
+    vec3 brightBlood = vec3(0.940, 0.110, 0.045);
+    vec3 bloodColor = mix(darkBlood, bloodRed, clamp(fromBottom / max(bloodReach, 1.0), 0.0, 1.0));
+    bloodColor = mix(bloodColor, brightBlood, brightRim * 0.45 + popRing * 0.30);
+    liquidColor = mix(liquidColor, bloodColor, blood * 0.82);
+
     float liquidAlpha = 0.66 + refractedBand * 0.13 + brightRim * 0.12 + popRing * 0.10;
     liquidAlpha -= darkBubble * 0.18;
-    fragColor = vec4(palette(clamp(shade, 0.0, 1.0)), clamp(liquidAlpha, 0.42, 0.94) * source.a);
+    liquidAlpha += blood * 0.10;
+    fragColor = vec4(liquidColor, clamp(liquidAlpha, 0.42, 0.96) * source.a);
 }
