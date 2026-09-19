@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 import net.eli.mycological.block.ModBlocks;
+import net.eli.mycological.attachment.ModAttachments;
 import net.eli.mycological.entity.ModEntities;
 import net.eli.mycological.effect.ModEffects;
 import net.eli.mycological.item.ModItems;
@@ -35,6 +36,7 @@ public class Mycological {
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Mycological(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);
+        ModAttachments.register(modEventBus);
         ModEffects.EFFECTS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         ModItems.register(modEventBus);

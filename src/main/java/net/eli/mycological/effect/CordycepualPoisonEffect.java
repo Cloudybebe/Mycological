@@ -12,9 +12,11 @@ public final class CordycepualPoisonEffect extends MobEffect {
     public CordycepualPoisonEffect() {
         super(MobEffectCategory.HARMFUL, 0xBEBB12);
         addAttributeModifier(Attributes.MAX_HEALTH, ResourceLocation.fromNamespaceAndPath(
-                Mycological.MOD_ID, "cordycepual_poison_health"), AttributeModifier.Operation.ADD_VALUE, level -> -2.0);
+                Mycological.MOD_ID, "cordycepual_poison_health"), AttributeModifier.Operation.ADD_VALUE,
+                level -> -2.0 * (level + 1));
         addAttributeModifier(Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(
-                Mycological.MOD_ID, "cordycepual_poison_weakness"), -4.0, AttributeModifier.Operation.ADD_VALUE);
+                Mycological.MOD_ID, "cordycepual_poison_weakness"), AttributeModifier.Operation.ADD_VALUE,
+                level -> -4.0 * (level + 1));
     }
 
     @Override

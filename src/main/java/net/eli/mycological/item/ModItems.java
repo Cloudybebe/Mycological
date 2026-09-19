@@ -7,18 +7,22 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.eli.mycological.effect.ModEffects;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Mycological.MOD_ID);
-    public static final DeferredItem<Item> CORDYCEPS_SPORE = ITEMS.register("cordyceps_spore", () -> new Item(
-            new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationModifier(0.1F)
-                    .alwaysEdible().effect(() -> new MobEffectInstance(ModEffects.CORDYCEPUAL_POISON,
-                            ModEffects.POISON_DURATION_TICKS), 1.0F).build())));
+    private static final FoodProperties SPORE_FOOD = new FoodProperties.Builder()
+            .nutrition(1).saturationModifier(0.1F).alwaysEdible().build();
+    public static final DeferredItem<Item> CORDYCEPS_SPORE = ITEMS.register("cordyceps_spore",
+            () -> new MithridatismSporeItem(1, new Item.Properties().food(SPORE_FOOD)));
+    public static final DeferredItem<Item> CORDYCEPS_SPORE_STAGE_2 = ITEMS.register("cordyceps_spore_stage_2",
+            () -> new MithridatismSporeItem(2, new Item.Properties().food(SPORE_FOOD)));
+    public static final DeferredItem<Item> CORDYCEPS_SPORE_STAGE_3 = ITEMS.register("cordyceps_spore_stage_3",
+            () -> new MithridatismSporeItem(3, new Item.Properties().food(SPORE_FOOD)));
+    public static final DeferredItem<Item> CORDYCEPS_SPORE_STAGE_4 = ITEMS.register("cordyceps_spore_stage_4",
+            () -> new MithridatismSporeItem(4, new Item.Properties().food(SPORE_FOOD)));
     public static final DeferredItem<BlockItem> LEAF_LAYER = ITEMS.registerSimpleBlockItem(ModBlocks.LEAF_LAYER);
     public static final DeferredItem<BlockItem> CORDYCEPS_GRASS_BLOCK = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_GRASS_BLOCK);
     public static final DeferredItem<BlockItem> CORDYCEPS_GRASS = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_GRASS);
