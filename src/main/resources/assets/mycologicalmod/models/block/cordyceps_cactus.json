@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cactus",
+  "textures": {
+    "particle": "mycologicalmod:block/cordyceps_cactus_side",
+    "bottom": "mycologicalmod:block/cordyceps_cactus_bottom",
+    "top": "mycologicalmod:block/cordyceps_cactus_top",
+    "side": "mycologicalmod:block/cordyceps_cactus_side"
+  }
+}

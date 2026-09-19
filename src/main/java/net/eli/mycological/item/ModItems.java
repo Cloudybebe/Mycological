@@ -38,6 +38,7 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> CORDYCEPS_STEM_SPORE = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_STEM_SPORE);
 
     public static final DeferredItem<BlockItem> CORDYCEPS_MUSHROOM_BLOCK = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_MUSHROOM_BLOCK);
+    public static final DeferredItem<BlockItem> CORDYCEPS_CACTUS = ITEMS.registerSimpleBlockItem(ModBlocks.CORDYCEPS_CACTUS);
 
     public static final DeferredItem<BlockItem> PROTOTAXIES_FENCE = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_FENCE);
     public static final DeferredItem<BlockItem> PROTOTAXIES_FENCE_GATE = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_FENCE_GATE);
