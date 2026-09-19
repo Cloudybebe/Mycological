@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 public final class MithridatismSporeItem extends Item {
     private static final int[] STAGE_DURATIONS = {0, 30 * 20, 60 * 20, 120 * 20, 240 * 20};
     private static final int FAILURE_DURATION = 120 * 20;
-    private static final int FAILURE_AMPLIFIER = 2;
+    private static final int FAILURE_AMPLIFIER = 4;
     private static final int POISON_DURATION = 30 * 20;
     private final int stage;
 
@@ -33,7 +33,7 @@ public final class MithridatismSporeItem extends Item {
             if (stage == completedStage + 1) {
                 player.setData(ModAttachments.MITHRIDATISM_STAGE, stage);
                 player.addEffect(new MobEffectInstance(ModEffects.CORDYCEPUAL_POISON,
-                        STAGE_DURATIONS[stage], 0));
+                        STAGE_DURATIONS[stage], stage - 1));
             } else {
                 player.setData(ModAttachments.MITHRIDATISM_STAGE, 0);
                 player.addEffect(new MobEffectInstance(ModEffects.CORDYCEPUAL_POISON,
