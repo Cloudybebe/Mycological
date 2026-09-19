@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "top": "mycologicalmod:block/cordyceps_stem_spore_top",
-    "bottom": "mycologicalmod:block/cordyceps_stem_spore",
+    "bottom": "mycologicalmod:block/cordyceps_stem_top",
     "side": "mycologicalmod:block/cordyceps_stem_spore"
   }
 }
