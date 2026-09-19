@@ -89,7 +89,7 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
         float rootReach = radius * 1.08;
         float tip = 1.0 - smoothstep(rootReach - 0.014, rootReach, p.y);
         float taper = clamp(1.0 - p.y / max(rootReach, 0.001), 0.0, 1.0);
-        float flow = 0.88 + 0.22 * (0.5 + 0.5 * sin(Time * 1.05 - p.y * 35.0 + seed));
+        float flow = 0.72 + 0.52 * (0.5 + 0.5 * sin(Time * 1.05 - p.y * 35.0 + seed));
         float trunkWidth = (0.004 + 0.007 * sqrt(taper)) * flow;
         float trunkDistance = abs(p.x - center);
         sourceTrunks = max(sourceTrunks, (1.0 - smoothstep(trunkWidth, trunkWidth + aa, trunkDistance)) * tip);
@@ -109,18 +109,25 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
                    + 0.014 * sin((p.x + p.y) * 47.0 - edgeSeed);
     warpedPoint.y += 0.025 * sin(p.x * 25.0 - edgeSeed * 0.7)
                    + 0.011 * sin((p.x - p.y) * 39.0 + edgeSeed);
+    // Slow opposing waves make the living web crawl while leaving its edge sources anchored.
+    float movement = smoothstep(0.008, 0.075, p.y);
+    warpedPoint.x += movement * (0.010 * sin(Time * 0.48 + p.y * 24.0 + edgeSeed)
+                   + 0.005 * sin(Time * 0.31 - p.y * 41.0));
+    warpedPoint.y += movement * (0.008 * sin(Time * 0.41 + p.x * 21.0 - edgeSeed)
+                   + 0.004 * sin(Time * 0.27 + p.x * 37.0));
     vec2 networkPoint = vec2(warpedPoint.x * 16.0, warpedPoint.y * 19.0);
     vec3 cells = cellularDistances(networkPoint, edgeSeed);
     float borderDistance = cells.y - cells.x;
-    float pulse = 0.78 + 0.32 * (0.5 + 0.5 * sin(Time * 1.12 - p.y * 38.0 + edgeSeed));
+    float flowWave = 0.5 + 0.5 * sin(Time * 1.12 - p.y * 38.0 + edgeSeed);
     float organicWidth = 0.82 + 0.24 * sin(p.x * 21.0 + p.y * 16.0 + edgeSeed);
-    float veinWidth = mix(0.052, 0.095, pulse) * organicWidth;
+    float veinWidth = mix(0.040, 0.115, flowWave) * organicWidth;
     float web = (1.0 - smoothstep(veinWidth, veinWidth + 0.035, borderDistance)) * sheet;
 
     // Triple-cell junctions make irregular accumulations rather than evenly spaced beads.
     float junction = (1.0 - smoothstep(0.08, 0.16, cells.z - cells.x)) * web;
     float body = max(web, sourceTrunks);
-    float highlight = max(sourceHighlight, junction * 0.72);
+    float travelingHighlight = web * smoothstep(0.70, 0.98, flowWave) * 0.62;
+    float highlight = max(max(sourceHighlight, junction * 0.72), travelingHighlight);
     float curvature = max(clamp(1.0 - borderDistance / max(veinWidth, 0.001), 0.0, 1.0), sourceCurvature);
 
     // The newest rim stays dense and exploratory while the interior resolves into channels.
