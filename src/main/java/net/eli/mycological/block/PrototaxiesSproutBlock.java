@@ -7,11 +7,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** A non-colliding sprout that grows outward from any sturdy block face. */
 public class PrototaxiesSproutBlock extends DirectionalBlock {
@@ -44,6 +47,19 @@ public class PrototaxiesSproutBlock extends DirectionalBlock {
         Direction facing = state.getValue(FACING);
         BlockPos supportPos = pos.relative(facing.getOpposite());
         return level.getBlockState(supportPos).isFaceSturdy(level, supportPos, facing);
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        double depth = this == ModBlocks.PROTOTAXIES_SPROUT_LARGE.get() ? 7.0 : 5.0;
+        return switch (state.getValue(FACING)) {
+            case NORTH -> Block.box(0.0, 0.0, 16.0 - depth, 16.0, 16.0, 16.0);
+            case SOUTH -> Block.box(0.0, 0.0, 0.0, 16.0, 16.0, depth);
+            case EAST -> Block.box(0.0, 0.0, 0.0, depth, 16.0, 16.0);
+            case WEST -> Block.box(16.0 - depth, 0.0, 0.0, 16.0, 16.0, 16.0);
+            case UP -> Block.box(0.0, 0.0, 0.0, 16.0, depth, 16.0);
+            case DOWN -> Block.box(0.0, 16.0 - depth, 0.0, 16.0, 16.0, 16.0);
+        };
     }
 
     @Override
