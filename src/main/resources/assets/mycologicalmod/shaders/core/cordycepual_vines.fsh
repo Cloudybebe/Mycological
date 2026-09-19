@@ -33,6 +33,11 @@ float lineMask(float distance, float width, float aa) {
     return 1.0 - smoothstep(width, width + aa, distance);
 }
 
+float flowPulse(float depth, float seed) {
+    // A single slow wave travels from the root toward every connected tip.
+    return 0.90 + 0.20 * (0.5 + 0.5 * sin(Time * 1.15 - depth * 34.0 + seed));
+}
+
 vec4 vine(vec2 p, float root, float seed, float aa) {
     float reach = (0.23 + 0.09 * randomValue(seed)) * Growth;
     if (p.y < 0.0 || p.y > reach + 0.05 || abs(p.x - root) > 0.15) {
@@ -42,6 +47,7 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
     float pointTaper = smoothstep(0.0, 0.035, reach - p.y);
     float rootSwelling = 1.0 + 1.35 * Growth * (1.0 - smoothstep(0.015, 0.145, p.y));
     float width = (0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth)) * sqrt(pointTaper) * rootSwelling;
+    width *= flowPulse(p.y, seed);
     float distance = abs(p.x - stemCenter(p.y, root, seed, reach));
     float body = lineMask(distance, width, aa) * step(p.y, reach);
     float highlight = lineMask(distance, width * 0.38, aa) * step(p.y, reach);
@@ -61,6 +67,7 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
         float branchWriggle = 0.0032 * sin(Time * 0.9 + depth * 31.0 + branchSeed) * smoothstep(0.0, 0.030, depth);
         float branchX = branchRoot + direction * (depth * 0.8 + 0.012 * sin(depth * 38.0)) + branchWriggle;
         float branchWidth = (0.0032 + 0.0045 * (1.0 - clamp(depth / branchLength, 0.0, 1.0))) * sqrt(Growth);
+        branchWidth *= flowPulse(anchor + depth, seed);
         float branchTip = 1.0 - smoothstep(branchLength - 0.007, branchLength, depth);
         float branchDistance = abs(p.x - branchX);
         body = max(body, lineMask(branchDistance, branchWidth, aa) * branchTip);
@@ -74,7 +81,7 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
             if (forkReach > 0.001 && forkDepth >= 0.0 && forkDepth <= forkReach + 0.04) {
                 float forkRoot = branchRoot + direction * (anchorDepth * 0.8 + 0.012 * sin(anchorDepth * 38.0));
                 float forkX = forkRoot + direction * forkDepth * (fork == 0 ? -0.45 : 1.6);
-                float forkWidth = 0.0040 * sqrt(Growth);
+                float forkWidth = 0.0040 * sqrt(Growth) * flowPulse(anchor + anchorDepth + forkDepth, seed);
                 float forkDistance = abs(p.x - forkX);
                 float forkBodyGate = step(forkDepth, forkReach);
                 body = max(body, lineMask(forkDistance, forkWidth, aa) * forkBodyGate);
@@ -102,8 +109,12 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
     // The translucent film slowly expands inward from each edge source.
     vec2 fromRoot = vec2((p.x - root) * 0.78, p.y);
     float angle = atan(fromRoot.y, fromRoot.x);
-    float lumpyEdge = 0.009 * sin(angle * 7.0 + seed) + 0.005 * sin(angle * 13.0 - seed * 0.7);
-    float filmRadius = Growth * (0.105 + 0.035 * randomValue(seed + 8.0)) + lumpyEdge * Growth;
+    float broadLobes = 0.014 * sin(angle * 3.0 + seed * 0.6)
+                     + 0.008 * sin(angle * 7.0 + seed);
+    float exploratoryFringe = 0.0035 * sin(angle * 17.0 - seed * 0.7);
+    float livingPulse = 0.0025 * sin(Time * 0.45 + seed + angle * 2.0);
+    float filmRadius = Growth * (0.105 + 0.035 * randomValue(seed + 8.0)
+            + broadLobes + exploratoryFringe) + livingPulse * smoothstep(0.08, 0.45, Growth);
     float film = 1.0 - smoothstep(filmRadius - 0.008, filmRadius + 0.003, length(fromRoot));
     film *= smoothstep(0.005, 0.08, Growth);
     return vec4(body, min(highlight, body), film, curvature);
