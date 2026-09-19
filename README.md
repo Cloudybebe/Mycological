@@ -25,8 +25,8 @@ kept stable when display names change so saved blocks and items still load.
 | `prototaxies_planks` | Same texture on all six faces |
 | `prototaxies_door` | `_down` + `_top`; two-block wooden door, hand and redstone opening |
 | `prototaxies_trap_door` | Wooden trapdoor with top/bottom/open states and waterlogging |
-| `sporatic_sand` | Brushable into vanilla sand; floating spore break particles |
-| `red_sporatic_sand` | Brushable into vanilla red sand; floating spore break particles |
+| `sporatic_sand` | Brushable into vanilla sand; long-lived floating spore particles spread widely when broken |
+| `red_sporatic_sand` | Brushable into vanilla red sand; long-lived floating spore particles spread widely when broken |
 | `cordyceps_mushroom_block` | Supplied shelf spore top texture on all six sides; full mushroom block |
 | `cordyceps_stem` | Full block with side texture + `_top`, side texture on bottom |
 | `cordyceps_stem_spore` | Full block with side texture + `_top`, side texture on bottom |

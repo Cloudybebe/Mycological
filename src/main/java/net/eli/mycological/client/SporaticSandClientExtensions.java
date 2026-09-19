@@ -15,7 +15,7 @@ public final class SporaticSandClientExtensions implements IClientBlockExtension
                 manager.add(new SporaticSporeParticle(clientLevel,
                         pos.getX() + level.random.nextDouble(),
                         pos.getY() + level.random.nextDouble(),
-                        pos.getZ() + level.random.nextDouble(), state, pos));
+                        pos.getZ() + level.random.nextDouble(), state, pos, true));
             }
         }
         return true;
