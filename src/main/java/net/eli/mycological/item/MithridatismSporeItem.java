@@ -35,11 +35,11 @@ public final class MithridatismSporeItem extends Item {
                     player.setData(ModAttachments.MITHRIDATISM_STAGE, stage);
                 }
                 player.addEffect(new MobEffectInstance(ModEffects.CORDYCEPUAL_POISON,
-                        STAGE_DURATIONS[stage], stage - 1));
+                        STAGE_DURATIONS[stage], stage - 1, false, false, false));
             } else {
                 player.setData(ModAttachments.MITHRIDATISM_STAGE, 0);
                 player.addEffect(new MobEffectInstance(ModEffects.CORDYCEPUAL_POISON,
-                        FAILURE_DURATION, FAILURE_AMPLIFIER));
+                        FAILURE_DURATION, FAILURE_AMPLIFIER, false, false, false));
                 player.addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION, 1));
             }
         }
