@@ -7,9 +7,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 
 /** A non-colliding sprout that grows outward from any sturdy block face. */
 public class PrototaxiesSproutBlock extends DirectionalBlock {
@@ -17,11 +19,17 @@ public class PrototaxiesSproutBlock extends DirectionalBlock {
 
     public PrototaxiesSproutBlock(BlockBehaviour.Properties properties) {
         super(properties);
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.UP));
     }
 
     @Override
     public MapCodec<PrototaxiesSproutBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Nullable
