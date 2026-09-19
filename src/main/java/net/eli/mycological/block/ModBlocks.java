@@ -67,6 +67,9 @@ public final class ModBlocks {
             "prototaxies_stripped_wood", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD).sound(SoundType.STEM));
     public static final DeferredBlock<Block> PROTOTAXIES_SPORE = BLOCKS.registerSimpleBlock(
             "prototaxies_spore", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
+    public static final DeferredBlock<PrototaxiesSproutBlock> PROTOTAXIES_SPROUT_SMALL = BLOCKS.registerBlock(
+            "prototaxies_sprout_small", PrototaxiesSproutBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.HANGING_ROOTS));
     public static final DeferredBlock<Block> PROTOTAXIES_PLANKS = BLOCKS.registerSimpleBlock(
             "prototaxies_planks", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS));
     public static final DeferredBlock<DoorBlock> PROTOTAXIES_DOOR = BLOCKS.registerBlock(
@@ -127,6 +130,7 @@ public final class ModBlocks {
         BLOCK_TYPES.register("leaf_layer", () -> LeafLayerBlock.CODEC);
         BLOCK_TYPES.register("cordyceps_grass", () -> CordycepsGrassBlock.CODEC);
         BLOCK_TYPES.register("cordyceps_lichen", () -> CordycepsLichenBlock.CODEC);
+        BLOCK_TYPES.register("prototaxies_sprout_small", () -> PrototaxiesSproutBlock.CODEC);
     }
 
     public static void register(IEventBus eventBus) {

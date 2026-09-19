@@ -29,6 +29,7 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> PROTOTAXIES_WOOD = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_WOOD);
     public static final DeferredItem<BlockItem> PROTOTAXIES_STRIPPED_WOOD = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_STRIPPED_WOOD);
     public static final DeferredItem<BlockItem> PROTOTAXIES_SPORE = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_SPORE);
+    public static final DeferredItem<BlockItem> PROTOTAXIES_SPROUT_SMALL = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_SPROUT_SMALL);
     public static final DeferredItem<BlockItem> PROTOTAXIES_PLANKS = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_PLANKS);
     public static final DeferredItem<BlockItem> PROTOTAXIES_DOOR = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_DOOR);
     public static final DeferredItem<BlockItem> PROTOTAXIES_TRAP_DOOR = ITEMS.registerSimpleBlockItem(ModBlocks.PROTOTAXIES_TRAP_DOOR);
