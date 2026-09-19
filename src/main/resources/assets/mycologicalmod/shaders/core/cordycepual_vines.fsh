@@ -42,11 +42,27 @@ vec3 cellularDistances(vec2 p, float seed) {
     return vec3(first, second, third);
 }
 
+vec3 roundedLichenPalette(float shade) {
+    vec3 brown = vec3(0.369, 0.247, 0.043);
+    vec3 darkOlive = vec3(0.482, 0.380, 0.063);
+    vec3 warmOlive = vec3(0.600, 0.475, 0.098);
+    vec3 lichen = vec3(0.745, 0.733, 0.071);
+    vec3 gold = vec3(0.863, 0.776, 0.090);
+    vec3 cream = vec3(1.000, 0.933, 0.408);
+    float scaled = clamp(shade, 0.0, 1.0) * 5.0;
+    if (scaled < 1.0) return mix(brown, darkOlive, smoothstep(0.0, 1.0, scaled));
+    if (scaled < 2.0) return mix(darkOlive, warmOlive, smoothstep(1.0, 2.0, scaled));
+    if (scaled < 3.0) return mix(warmOlive, lichen, smoothstep(2.0, 3.0, scaled));
+    if (scaled < 4.0) return mix(lichen, gold, smoothstep(3.0, 4.0, scaled));
+    return mix(gold, cream, smoothstep(4.0, 5.0, scaled));
+}
+
 vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
     float sheet = 0.0;
     float innerSheet = 0.0;
     float sourceTrunks = 0.0;
     float sourceHighlight = 0.0;
+    float sourceCurvature = 0.0;
 
     // Overlapping colonies make one broad advancing sheet instead of isolated circles.
     for (int i = 0; i < 3; i++) {
@@ -77,6 +93,8 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
         float trunkWidth = (0.004 + 0.007 * sqrt(taper)) * flow;
         float trunkDistance = abs(p.x - center);
         sourceTrunks = max(sourceTrunks, (1.0 - smoothstep(trunkWidth, trunkWidth + aa, trunkDistance)) * tip);
+        sourceCurvature = max(sourceCurvature,
+                clamp(1.0 - trunkDistance / max(trunkWidth, aa), 0.0, 1.0) * tip);
         sourceHighlight = max(sourceHighlight,
                 (1.0 - smoothstep(trunkWidth * 0.30, trunkWidth * 0.30 + aa, trunkDistance)) * tip);
     }
@@ -103,7 +121,7 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
     float junction = (1.0 - smoothstep(0.08, 0.16, cells.z - cells.x)) * web;
     float body = max(web, sourceTrunks);
     float highlight = max(sourceHighlight, junction * 0.72);
-    float curvature = max(clamp(1.0 - borderDistance / max(veinWidth, 0.001), 0.0, 1.0), sourceHighlight);
+    float curvature = max(clamp(1.0 - borderDistance / max(veinWidth, 0.001), 0.0, 1.0), sourceCurvature);
 
     // The newest rim stays dense and exploratory while the interior resolves into channels.
     float advancingRim = clamp(sheet - innerSheet, 0.0, 1.0);
@@ -154,13 +172,8 @@ void main() {
     filmColor = mix(filmColor, brown * 0.72, filmRim * 0.76);
     filmColor = mix(filmColor, gold, smoothstep(0.78, 1.0, smoothSheen) * 0.18 * wetPulse);
 
-    float shade = clamp(masks.w, 0.0, 0.999);
-    float band = floor(shade * 6.0);
-    vec3 veinColor = band < 1.0 ? brown
-            : band < 2.0 ? darkOlive
-            : band < 3.0 ? warmOlive
-            : band < 4.0 ? lichen
-            : band < 5.0 ? gold : cream;
+    // Continuous edge-to-center palette interpolation gives every channel a rounded cross-section.
+    vec3 veinColor = roundedLichenPalette(masks.w);
     veinColor = mix(veinColor, cream, masks.y * (0.18 + 0.20 * smoothSheen) * wetPulse);
     vec3 color = mix(filmColor, veinColor, smoothstep(0.04, 0.48, masks.x));
     float alpha = max(masks.x * 0.92, film * (0.28 + smoothSheen * 0.06));

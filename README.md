@@ -132,7 +132,7 @@ without instantly healing the lost health. The display name is Mithridatism; the
 Cordyceps Lichen texture.
 
 A dedicated GLSL screen shader draws procedural branching vines in the
-lichen palette. A pixelated amoeboid sheet advances inward from the screen edges with broad lobes and a fine exploratory fringe, then resolves into a looping cellular transport network with irregular junction swellings, heavy source channels, traveling flow pulses, and six-color lichen shading with warm brown-olive rims, mustard and gold bodies, and pale wet highlights in one render pass. The network grows over the first 12 seconds and retracts over the
+lichen palette. A pixelated amoeboid sheet advances inward from the screen edges with broad lobes and a fine exploratory fringe, then resolves into a looping cellular transport network with irregular junction swellings, heavy source channels, traveling flow pulses, and rounded six-color lichen shading that blends continuously from warm brown-olive rims through mustard and gold bodies to pale wet highlights in one render pass. The network grows over the first 12 seconds and retracts over the
 last eight seconds. Refreshing the effect preserves growth; clearing it
 early smoothly retracts the vines. The paths are stable for each player, and corner sources enter diagonally.
 The center remains clear and the HUD draws above the shader. Rendering is
