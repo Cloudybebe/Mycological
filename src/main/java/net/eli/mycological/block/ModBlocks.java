@@ -65,8 +65,8 @@ public final class ModBlocks {
             "prototaxies_wood", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD).sound(SoundType.STEM));
     public static final DeferredBlock<RotatedPillarBlock> PROTOTAXIES_STRIPPED_WOOD = BLOCKS.registerBlock(
             "prototaxies_stripped_wood", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD).sound(SoundType.STEM));
-    public static final DeferredBlock<RotatedPillarBlock> PROTOTAXIES_SPORE = BLOCKS.registerBlock(
-            "prototaxies_spore", RotatedPillarBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
+    public static final DeferredBlock<Block> PROTOTAXIES_SPORE = BLOCKS.registerSimpleBlock(
+            "prototaxies_spore", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).sound(SoundType.STEM));
     public static final DeferredBlock<Block> PROTOTAXIES_PLANKS = BLOCKS.registerSimpleBlock(
             "prototaxies_planks", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS));
     public static final DeferredBlock<DoorBlock> PROTOTAXIES_DOOR = BLOCKS.registerBlock(
