@@ -31,7 +31,8 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
     }
     float taper = clamp(1.0 - p.y / max(reach, 0.001), 0.0, 1.0);
     float pointTaper = smoothstep(0.0, 0.035, reach - p.y);
-    float width = (0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth)) * sqrt(pointTaper);
+    float rootSwelling = 1.0 + 1.35 * Growth * (1.0 - smoothstep(0.015, 0.145, p.y));
+    float width = (0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth)) * sqrt(pointTaper) * rootSwelling;
     float distance = abs(p.x - stemCenter(p.y, root, seed, reach));
     float body = lineMask(distance, width, aa) * step(p.y, reach);
     float highlight = lineMask(distance, width * 0.38, aa) * step(p.y, reach);
@@ -72,13 +73,15 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
         }
         highlight = max(highlight, lineMask(abs(p.x - branchX + 0.001), branchWidth * 0.3, aa) * branchTip);
     }
-    // Rounded nodules swell where the vein emerges from its film patch.
+// Rounded nodules follow the entire grown main vein, including its moving tip region.
     float nodule = 0.0;
-    for (int n = 0; n < 3; n++) {
+    for (int n = 0; n < 5; n++) {
         float nSeed = seed + float(n) * 5.3;
-        vec2 center = vec2(root + (randomValue(nSeed) - 0.5) * 0.027,
-                           0.006 + randomValue(nSeed + 1.0) * 0.018);
-        float radius = (0.008 + randomValue(nSeed + 2.0) * 0.009) * smoothstep(0.02, 0.18, Growth);
+        float noduleDepth = reach * (0.08 + float(n) * 0.205);
+        float sideOffset = (randomValue(nSeed) - 0.5) * (0.010 + 0.005 * float(n % 2));
+        vec2 center = vec2(stemCenter(noduleDepth, root, seed, reach) + sideOffset, noduleDepth);
+        float radius = (0.006 + randomValue(nSeed + 2.0) * 0.006) * smoothstep(0.02, 0.18, Growth);
+        radius *= 1.0 + 0.38 * Growth * (1.0 - float(n) / 5.0);
         float noduleDistance = length(p - center);
         nodule = max(nodule, 1.0 - smoothstep(radius, radius + aa, noduleDistance));
         curvature = max(curvature, 1.0 - clamp(noduleDistance / max(radius, aa), 0.0, 1.0));
@@ -118,14 +121,16 @@ void main() {
         for (int i = 0; i < 4; i++) {
             float seed = float(edge) * 19.3 + float(i) * 7.1 + 2.0;
             float root = (float(i) + 0.5 + (randomValue(seed + 1.0) - 0.5) * 0.45) * span / 4.0;
-            masks = max(masks, vine(p, root, seed, aa));
+            float cornerTilt = root < span * 0.27 ? 0.68 : root > span * 0.73 ? -0.68 : 0.0;
+            vec2 angledP = vec2(p.x - cornerTilt * p.y, p.y);
+            masks = max(masks, vine(angledP, root, seed, aa));
         }
     }
     // Six real lichen colors chosen by analytic curvature; alpha is kept separate.
     float film = masks.z;
     float grain = fract(sin(dot(floor(uv * grid), vec2(12.9898, 78.233))) * 43758.5453);
     float wetPulse = 0.82 + 0.18 * sin(Time * 1.3);
-    float wetSpecks = step(0.86, fract(grain * 17.0 + floor(uv.x * grid.x) * 0.071));
+    float smoothSheen = 0.5 + 0.5 * sin(uv.x * 12.0 + Time * 0.12) * sin(uv.y * 15.0 - Time * 0.09);
 
     vec3 brown = vec3(0.369, 0.247, 0.043);   // #5e3f0b
     vec3 darkOlive = vec3(0.482, 0.380, 0.063); // #7b6110
@@ -134,13 +139,11 @@ void main() {
     vec3 gold = vec3(0.863, 0.776, 0.090);    // #dcc617
     vec3 cream = vec3(1.000, 0.933, 0.408);   // #ffee68
 
-    float filmRim = 4.0 * film * (1.0 - film);
-    float filmBand = floor(grain * 4.0);
-    vec3 filmColor = filmBand < 1.0 ? brown
-            : filmBand < 2.0 ? darkOlive
-            : filmBand < 3.0 ? warmOlive : lichen;
+float filmRim = 4.0 * film * (1.0 - film);
+    vec3 filmColor = mix(darkOlive, warmOlive, 0.48 + smoothSheen * 0.20);
     filmColor = mix(filmColor, brown * 0.72, filmRim * 0.82);
-    filmColor = mix(filmColor, gold, wetSpecks * 0.34 * wetPulse);
+    filmColor = mix(filmColor, gold, smoothstep(0.76, 1.0, smoothSheen) * 0.22 * wetPulse);
+
     // A tiny fixed-grid dither breaks up band contours while preserving the six-color palette.
     float shade = clamp(masks.w + (grain - 0.5) * 0.10, 0.0, 0.999);
     float band = floor(shade * 6.0);
@@ -150,7 +153,7 @@ void main() {
             : band < 4.0 ? lichen
             : band < 5.0 ? gold : cream;
     // Sparse wet glints use the existing core mask; no additional geometry pass is drawn.
-    veinColor = mix(veinColor, cream, masks.y * wetSpecks * 0.28 * wetPulse);
+    veinColor = mix(veinColor, cream, masks.y * (0.16 + 0.16 * smoothSheen) * wetPulse);
     vec3 color = mix(filmColor, veinColor, smoothstep(0.02, 0.35, masks.x));
-    fragColor = vec4(color, max(masks.x * 0.9, film * (0.34 + wetSpecks * 0.10)) * smoothstep(0.0, 0.025, Growth));
+    fragColor = vec4(color, max(masks.x * 0.9, film * (0.35 + smoothSheen * 0.07)) * smoothstep(0.0, 0.025, Growth));
 }

@@ -134,7 +134,7 @@ Cordyceps Lichen texture.
 A dedicated GLSL screen shader draws procedural branching vines in the
 lichen palette. Pixelated slime-mold veins with pointed geometric tips and stronger tip-weighted wriggling, thick six-color lichen shading driven by analytic curvature, with warm brown-olive rims, mustard and gold bodies, and pale wet highlights in one render pass, shiny root nodules, and translucent film patches appear at each vine source and spread outward over the first 12 seconds and retract over the
 last eight seconds. Refreshing the effect preserves growth; clearing it
-early smoothly retracts the vines. The paths are stable for each player.
+early smoothly retracts the vines. The paths are stable for each player, and corner sources enter diagonally.
 The center remains clear and the HUD draws above the shader. Rendering is
 first-person only and respects hidden HUD and paused singleplayer. Player
 or world changes reset the visual state. It does not replace another mod's
