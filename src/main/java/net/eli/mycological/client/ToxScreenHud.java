@@ -60,10 +60,10 @@ public final class ToxScreenHud {
         }
 
         int stage = displayedStage(player);
-        float x = graphics.guiWidth() - 20.0F;
-        float y = graphics.guiHeight() - 36.0F;
-        float width = 16.0F;
-        float height = 32.0F;
+        float width = 32.0F;
+        float height = 64.0F;
+        float x = graphics.guiWidth() - width - 4.0F;
+        float y = graphics.guiHeight() - height - 4.0F;
 
         graphics.flush();
         ShaderInstance previousShader = RenderSystem.getShader();
