@@ -36,6 +36,13 @@ void main() {
     float flicker = hash11(pixel.x * 7.0 + pixel.y * 19.0 + floor(Time * 3.0) * 0.37);
     float shade = 0.38 + verticalShade * 0.30 + (flicker - 0.5) * 0.10;
 
+    // Quantized traveling bands mimic light bending through a viscous transparent fluid.
+    float refractionWave = sin(pixel.y * 0.72 + Time * 2.1
+            + sin(pixel.x * 1.15 - Time * 1.3) * 1.4);
+    float refractedBand = smoothstep(0.62, 0.94, refractionWave);
+    float glassEdge = 1.0 - smoothstep(0.0, 2.0, min(abs(pixel.x - 5.5), abs(pixel.x - 10.5)));
+    shade += refractedBand * 0.18 + glassEdge * 0.08;
+
     float darkBubble = 0.0;
     float brightRim = 0.0;
     float popRing = 0.0;
@@ -46,6 +53,7 @@ void main() {
         float age = mod(Time + hash11(seed) * cycle, cycle);
         vec2 center = vec2(6.0 + hash11(seed + 1.0) * 4.0,
                 30.0 - age * speed);
+        center.x += sin(Time * 1.7 + seed + center.y * 0.35) * 0.45;
         float radius = 0.7 + hash11(seed + 3.0) * 1.15;
         float distanceToBubble = length(pixel - center);
         darkBubble = max(darkBubble, 1.0 - smoothstep(radius - 0.25, radius + 0.35, distanceToBubble));
@@ -59,5 +67,7 @@ void main() {
 
     shade -= darkBubble * 0.34;
     shade += brightRim * 0.25 + popRing * 0.34;
-    fragColor = vec4(palette(clamp(shade, 0.0, 1.0)), source.a);
+    float liquidAlpha = 0.66 + refractedBand * 0.13 + brightRim * 0.12 + popRing * 0.10;
+    liquidAlpha -= darkBubble * 0.18;
+    fragColor = vec4(palette(clamp(shade, 0.0, 1.0)), clamp(liquidAlpha, 0.42, 0.94) * source.a);
 }
