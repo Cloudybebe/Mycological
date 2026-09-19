@@ -113,17 +113,29 @@ void main() {
             masks = max(masks, vine(p, root, seed, aa));
         }
     }
-    // Palette sampled from cordyceps_lichen.png: #7b6110, #939100, #bebb12, #ffee68.
+    // High-contrast slime palette: dark rounded rims, green-gold body, lime wet core.
     float film = masks.z;
     float grain = fract(sin(dot(floor(uv * grid), vec2(12.9898, 78.233))) * 43758.5453);
-    vec3 darkest = vec3(0.482, 0.380, 0.063);
-    vec3 olive = vec3(0.576, 0.569, 0.0);
-    vec3 yellow = vec3(0.745, 0.733, 0.071);
-    vec3 color = mix(darkest, olive, 0.3 + grain * 0.42);
-    color = mix(color, yellow, 0.25 + masks.y * 0.58);
     float wetPulse = 0.82 + 0.18 * sin(Time * 1.3);
     float wetSpecks = step(0.86, fract(grain * 17.0 + floor(uv.x * grid.x) * 0.071));
-    color = mix(color, vec3(1.0, 0.933, 0.408), masks.y * (0.52 + 0.08 * wetPulse));
-    color = mix(color, vec3(1.0, 0.97, 0.63), film * wetSpecks * 0.38 * wetPulse);
+
+    vec3 filmDark = vec3(0.145, 0.205, 0.045);
+    vec3 filmBody = vec3(0.395, 0.510, 0.075);
+    vec3 filmGold = vec3(0.850, 0.705, 0.075);
+    float filmRim = 4.0 * film * (1.0 - film);
+    vec3 filmColor = mix(filmDark, filmBody, 0.42 + grain * 0.32);
+    filmColor = mix(filmColor, filmDark * 0.65, filmRim * 0.8);
+    filmColor = mix(filmColor, filmGold, wetSpecks * 0.42 * wetPulse);
+
+    vec3 veinEdge = vec3(0.075, 0.185, 0.035);
+    vec3 veinBody = vec3(0.485, 0.690, 0.075);
+    vec3 veinCore = vec3(0.760, 0.925, 0.185);
+    vec3 wetHighlight = vec3(0.955, 1.000, 0.520);
+    float roundedCore = smoothstep(0.02, 0.78, masks.y);
+    vec3 veinColor = mix(veinEdge, veinBody, roundedCore);
+    veinColor = mix(veinColor, veinCore, roundedCore * roundedCore);
+    veinColor = mix(veinColor, wetHighlight, roundedCore * roundedCore * (0.30 + 0.16 * wetPulse));
+
+    vec3 color = mix(filmColor, veinColor, smoothstep(0.02, 0.35, masks.x));
     fragColor = vec4(color, max(masks.x * 0.9, film * (0.26 + wetSpecks * 0.12)) * smoothstep(0.0, 0.025, Growth));
 }
