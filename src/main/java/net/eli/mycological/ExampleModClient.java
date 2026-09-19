@@ -2,14 +2,13 @@ package net.eli.mycological;
 
 import net.minecraft.client.Minecraft;
 import net.eli.mycological.block.ModBlocks;
-import net.eli.mycological.attachment.ModAttachments;
 import net.eli.mycological.item.ModItems;
 import net.eli.mycological.client.SporaticSandClientExtensions;
 import net.eli.mycological.client.SporaticSporeParticle;
 import net.eli.mycological.client.PrototaxiesBoatRenderer;
 import net.eli.mycological.entity.ModEntities;
 import net.eli.mycological.client.CordycepualVines;
-import net.eli.mycological.effect.ModEffects;
+import net.eli.mycological.client.ToxScreenHud;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import java.io.IOException;
@@ -49,11 +48,13 @@ public class ExampleModClient {
     @SubscribeEvent
     static void registerShaders(RegisterShadersEvent event) throws IOException {
         CordycepualVines.registerShader(event);
+        ToxScreenHud.registerShader(event);
     }
 
     @SubscribeEvent
     static void registerGuiLayers(RegisterGuiLayersEvent event) {
         CordycepualVines.registerLayer(event);
+        ToxScreenHud.registerLayer(event);
     }
 
     @SubscribeEvent
@@ -101,16 +102,7 @@ public class ExampleModClient {
                             return 0.0F;
                         }
 
-                        int stage = player.getData(ModAttachments.MITHRIDATISM_STAGE);
-                        if (stage == 4) {
-                            var effect = player.getEffect(ModEffects.CORDYCEPUAL_POISON);
-                            if (effect == null) {
-                                stage = 0;
-                            } else if (effect.getDuration() <= 8 * 20) {
-                                stage = Math.max(1, (effect.getDuration() - 1) / (2 * 20) + 1);
-                            }
-                        }
-                        return stage / 4.0F;
+                        return ToxScreenHud.displayedStage(player) / 4.0F;
                     });
         });
         // Some client setup code

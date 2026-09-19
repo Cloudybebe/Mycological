@@ -1,0 +1,13 @@
+{
+  "blend": {"func": "add", "srcrgb": "srcalpha", "dstrgb": "1-srcalpha"},
+  "vertex": "mycologicalmod:tox_screen_hud",
+  "fragment": "mycologicalmod:tox_screen_hud",
+  "attributes": ["Position", "UV0"],
+  "samplers": [{"name": "Sampler0"}],
+  "uniforms": [
+    {"name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]},
+    {"name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]},
+    {"name": "Stage", "type": "float", "count": 1, "values": [0]},
+    {"name": "Time", "type": "float", "count": 1, "values": [0]}
+  ]
+}
