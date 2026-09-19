@@ -30,38 +30,37 @@ void main() {
         return;
     }
 
-    // The GUI sheet is authored at 32 x 64 pixels per frame, giving the liquid
-    // four times the pixel detail of the original while retaining hard pixel edges.
-    vec2 pixel = floor(texCoord * vec2(32.0, 64.0)) + 0.5;
-    float verticalShade = clamp((64.0 - pixel.y) / 64.0, 0.0, 1.0);
+    // One texture pixel maps to one GUI pixel, matching the vanilla hotbar scale.
+    vec2 pixel = floor(texCoord * vec2(24.0, 48.0)) + 0.5;
+    float verticalShade = clamp((48.0 - pixel.y) / 48.0, 0.0, 1.0);
     float flicker = hash11(pixel.x * 7.0 + pixel.y * 19.0 + floor(Time * 3.0) * 0.37);
     float shade = 0.38 + verticalShade * 0.30 + (flicker - 0.5) * 0.10;
 
     // Quantized traveling bands mimic light bending through a viscous transparent fluid.
-    float refractionWave = sin(pixel.y * 0.36 + Time * 2.1
-            + sin(pixel.x * 0.58 - Time * 1.3) * 1.4);
+    float refractionWave = sin(pixel.y * 0.48 + Time * 2.1
+            + sin(pixel.x * 0.77 - Time * 1.3) * 1.4);
     float refractedBand = smoothstep(0.62, 0.94, refractionWave);
-    float glassEdge = 1.0 - smoothstep(0.0, 3.5, min(abs(pixel.x - 9.0), abs(pixel.x - 21.0)));
+    float glassEdge = 1.0 - smoothstep(0.0, 2.5, min(abs(pixel.x - 7.0), abs(pixel.x - 16.0)));
     shade += refractedBand * 0.18 + glassEdge * 0.08;
 
     float darkBubble = 0.0;
     float brightRim = 0.0;
     float popRing = 0.0;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 6; i++) {
         float seed = float(i) * 13.7 + Stage * 31.1;
-        float speed = 3.0 + hash11(seed + 2.0) * 3.6;
+        float speed = 2.25 + hash11(seed + 2.0) * 2.7;
         float cycle = 7.0 + hash11(seed + 4.0) * 5.0;
         float age = mod(Time + hash11(seed) * cycle, cycle);
-        vec2 center = vec2(10.5 + hash11(seed + 1.0) * 10.0,
-                60.0 - age * speed);
-        center.x += sin(Time * 1.7 + seed + center.y * 0.18) * 0.9;
-        float radius = 1.2 + hash11(seed + 3.0) * 2.2;
+        vec2 center = vec2(8.0 + hash11(seed + 1.0) * 7.0,
+                45.0 - age * speed);
+        center.x += sin(Time * 1.7 + seed + center.y * 0.24) * 0.7;
+        float radius = 1.0 + hash11(seed + 3.0) * 1.65;
         float distanceToBubble = length(pixel - center);
         darkBubble = max(darkBubble, 1.0 - smoothstep(radius - 0.25, radius + 0.35, distanceToBubble));
         brightRim = max(brightRim, 1.0 - smoothstep(0.20, 0.65, abs(distanceToBubble - radius)));
 
         float popLife = smoothstep(cycle - 1.0, cycle - 0.25, age);
-        float popRadius = radius + popLife * 4.8;
+        float popRadius = radius + popLife * 3.6;
         float ring = 1.0 - smoothstep(0.20, 0.70, abs(distanceToBubble - popRadius));
         popRing = max(popRing, ring * popLife);
     }
