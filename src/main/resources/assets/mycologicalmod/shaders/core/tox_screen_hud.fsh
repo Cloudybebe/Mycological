@@ -38,24 +38,24 @@ void main() {
     float shade = 0.38 + verticalShade * 0.30 + (flicker - 0.5) * 0.10;
 
     // Quantized traveling bands mimic light bending through a viscous transparent fluid.
-    float refractionWave = sin(pixel.y * 0.72 + Time * 2.1
-            + sin(pixel.x * 1.15 - Time * 1.3) * 1.4);
+    float refractionWave = sin(pixel.y * 0.36 + Time * 2.1
+            + sin(pixel.x * 0.58 - Time * 1.3) * 1.4);
     float refractedBand = smoothstep(0.62, 0.94, refractionWave);
-    float glassEdge = 1.0 - smoothstep(0.0, 3.5, min(abs(pixel.x - 11.0), abs(pixel.x - 21.0)));
+    float glassEdge = 1.0 - smoothstep(0.0, 3.5, min(abs(pixel.x - 9.0), abs(pixel.x - 21.0)));
     shade += refractedBand * 0.18 + glassEdge * 0.08;
 
     float darkBubble = 0.0;
     float brightRim = 0.0;
     float popRing = 0.0;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 8; i++) {
         float seed = float(i) * 13.7 + Stage * 31.1;
         float speed = 3.0 + hash11(seed + 2.0) * 3.6;
         float cycle = 7.0 + hash11(seed + 4.0) * 5.0;
         float age = mod(Time + hash11(seed) * cycle, cycle);
-        vec2 center = vec2(12.0 + hash11(seed + 1.0) * 8.0,
+        vec2 center = vec2(10.5 + hash11(seed + 1.0) * 10.0,
                 60.0 - age * speed);
-        center.x += sin(Time * 1.7 + seed + center.y * 0.35) * 0.45;
-        float radius = 1.4 + hash11(seed + 3.0) * 2.3;
+        center.x += sin(Time * 1.7 + seed + center.y * 0.18) * 0.9;
+        float radius = 1.2 + hash11(seed + 3.0) * 2.2;
         float distanceToBubble = length(pixel - center);
         darkBubble = max(darkBubble, 1.0 - smoothstep(radius - 0.25, radius + 0.35, distanceToBubble));
         brightRim = max(brightRim, 1.0 - smoothstep(0.20, 0.65, abs(distanceToBubble - radius)));
