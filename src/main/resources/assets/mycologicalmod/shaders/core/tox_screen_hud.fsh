@@ -40,8 +40,18 @@ void main() {
     float refractionWave = sin(pixel.y * 0.48 + Time * 2.1
             + sin(pixel.x * 0.77 - Time * 1.3) * 1.4);
     float refractedBand = smoothstep(0.62, 0.94, refractionWave);
-    float glassEdge = 1.0 - smoothstep(0.0, 2.5, min(abs(pixel.x - 7.0), abs(pixel.x - 16.0)));
-    shade += refractedBand * 0.18 + glassEdge * 0.08;
+
+    // Shade the liquid as a cylindrical volume rather than a flat rectangle.
+    float tubeOffset = clamp((pixel.x - 11.5) / 5.0, -1.0, 1.0);
+    float tubeCurve = sqrt(max(0.0, 1.0 - tubeOffset * tubeOffset));
+    float tubeEdge = 1.0 - tubeCurve;
+    float hotspotX = 9.4 + 0.35 * sin(pixel.y * 0.17 - Time * 0.55);
+    float tubeHotspot = 1.0 - smoothstep(0.35, 1.15, abs(pixel.x - hotspotX));
+    tubeHotspot *= 0.58 + refractedBand * 0.42;
+    float secondaryHotspot = (1.0 - smoothstep(0.25, 0.85, abs(pixel.x - 14.7)))
+            * (0.35 + 0.25 * sin(pixel.y * 0.29 + Time * 0.7));
+    shade += refractedBand * 0.13 + tubeCurve * 0.13 - tubeEdge * 0.22
+            + tubeHotspot * 0.30 + secondaryHotspot * 0.12;
 
     float darkBubble = 0.0;
     float brightRim = 0.0;
@@ -88,9 +98,13 @@ void main() {
     vec3 bloodColor = mix(darkBlood, bloodRed, clamp(fromBottom / max(bloodReach, 1.0), 0.0, 1.0));
     bloodColor = mix(bloodColor, brightBlood, brightRim * 0.45 + popRing * 0.30);
     liquidColor = mix(liquidColor, bloodColor, blood * 0.82);
+    liquidColor *= mix(0.74, 1.06, tubeCurve);
+    liquidColor = mix(liquidColor, vec3(1.0, 0.72, 0.38), tubeHotspot * 0.42);
+    liquidColor = mix(liquidColor, vec3(1.0, 0.88, 0.62), secondaryHotspot * 0.18);
 
     float liquidAlpha = 0.66 + refractedBand * 0.13 + brightRim * 0.12 + popRing * 0.10;
-    liquidAlpha -= darkBubble * 0.18;
+    liquidAlpha -= darkBubble * 0.18 + tubeEdge * 0.10;
     liquidAlpha += blood * 0.10;
+    liquidAlpha += tubeHotspot * 0.12;
     fragColor = vec4(liquidColor, clamp(liquidAlpha, 0.42, 0.96) * source.a);
 }
