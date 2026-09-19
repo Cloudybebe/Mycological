@@ -50,8 +50,8 @@ void main() {
     tubeHotspot *= 0.58 + refractedBand * 0.42;
     float secondaryHotspot = (1.0 - smoothstep(0.25, 0.85, abs(pixel.x - 14.7)))
             * (0.35 + 0.25 * sin(pixel.y * 0.29 + Time * 0.7));
-    shade += refractedBand * 0.13 + tubeCurve * 0.13 - tubeEdge * 0.22
-            + tubeHotspot * 0.30 + secondaryHotspot * 0.12;
+    shade += refractedBand * 0.16 + tubeCurve * 0.15 - tubeEdge * 0.22
+            + tubeHotspot * 0.42 + secondaryHotspot * 0.19;
 
     float darkBubble = 0.0;
     float brightRim = 0.0;
@@ -99,12 +99,12 @@ void main() {
     bloodColor = mix(bloodColor, brightBlood, brightRim * 0.45 + popRing * 0.30);
     liquidColor = mix(liquidColor, bloodColor, blood * 0.82);
     liquidColor *= mix(0.74, 1.06, tubeCurve);
-    liquidColor = mix(liquidColor, vec3(1.0, 0.72, 0.38), tubeHotspot * 0.42);
-    liquidColor = mix(liquidColor, vec3(1.0, 0.88, 0.62), secondaryHotspot * 0.18);
+    liquidColor = mix(liquidColor, vec3(1.0, 0.80, 0.52), tubeHotspot * 0.58);
+    liquidColor = mix(liquidColor, vec3(1.0, 0.92, 0.72), secondaryHotspot * 0.30);
 
     float liquidAlpha = 0.66 + refractedBand * 0.13 + brightRim * 0.12 + popRing * 0.10;
     liquidAlpha -= darkBubble * 0.18 + tubeEdge * 0.10;
     liquidAlpha += blood * 0.10;
-    liquidAlpha += tubeHotspot * 0.12;
+    liquidAlpha += tubeHotspot * 0.17 + secondaryHotspot * 0.07;
     fragColor = vec4(liquidColor, clamp(liquidAlpha, 0.42, 0.96) * source.a);
 }
