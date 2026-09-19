@@ -120,7 +120,7 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
     float borderDistance = cells.y - cells.x;
     float flowWave = 0.5 + 0.5 * sin(Time * 1.12 - p.y * 38.0 + edgeSeed);
     float organicWidth = 0.82 + 0.24 * sin(p.x * 21.0 + p.y * 16.0 + edgeSeed);
-    float veinWidth = mix(0.040, 0.115, flowWave) * organicWidth;
+    float veinWidth = mix(0.060, 0.135, flowWave) * organicWidth;
     float web = (1.0 - smoothstep(veinWidth, veinWidth + 0.035, borderDistance)) * sheet;
 
     // Triple-cell junctions make irregular accumulations rather than evenly spaced beads.
@@ -128,7 +128,14 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
     float body = max(web, sourceTrunks);
     float travelingHighlight = web * smoothstep(0.70, 0.98, flowWave) * 0.62;
     float highlight = max(max(sourceHighlight, junction * 0.72), travelingHighlight);
-    float curvature = max(clamp(1.0 - borderDistance / max(veinWidth, 0.001), 0.0, 1.0), sourceCurvature);
+    float roundedCurvature = clamp(1.0 - borderDistance / max(veinWidth, 0.001), 0.0, 1.0);
+    // A one-pixel channel cannot show two shaded edges and a core. Give it a stable
+    // lengthwise palette gradient until it is wide enough for a rounded cross-section.
+    float thinChannel = 1.0 - smoothstep(0.078, 0.112, veinWidth);
+    float linearShade = 0.30 + 0.52 * (0.5 + 0.5 * sin(
+            warpedPoint.x * 19.0 + warpedPoint.y * 13.0 - Time * 0.38 + edgeSeed));
+    float webCurvature = mix(roundedCurvature, linearShade, thinChannel);
+    float curvature = max(webCurvature * web, sourceCurvature);
 
     // The newest rim stays dense and exploratory while the interior resolves into channels.
     float advancingRim = clamp(sheet - innerSheet, 0.0, 1.0);
