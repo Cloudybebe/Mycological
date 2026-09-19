@@ -20,82 +20,94 @@ float stemCenter(float depth, float root, float seed, float reach) {
                 + 0.012 * sin(depth * 47.0 + seed * 1.3) + wriggle;
 }
 
+float anchoredStemCenter(float depth, float root, float seed) {
+    return root + 0.024 * sin(depth * 21.0 + seed)
+                + 0.012 * sin(depth * 47.0 + seed * 1.3);
+}
+
+float noduleSideOffset(float seed, int index) {
+    float nSeed = seed + float(index) * 5.3;
+    return (randomValue(nSeed) - 0.5) * (0.010 + 0.005 * float(index % 2));
+}
 float lineMask(float distance, float width, float aa) {
     return 1.0 - smoothstep(width, width + aa, distance);
 }
 
 vec4 vine(vec2 p, float root, float seed, float aa) {
     float reach = (0.23 + 0.09 * randomValue(seed)) * Growth;
-    if (p.y < 0.0 || p.y > reach + 0.02 || abs(p.x - root) > 0.15) {
+    if (p.y < 0.0 || p.y > reach + 0.05 || abs(p.x - root) > 0.15) {
         return vec4(0.0);
     }
     float taper = clamp(1.0 - p.y / max(reach, 0.001), 0.0, 1.0);
     float pointTaper = smoothstep(0.0, 0.035, reach - p.y);
     float rootSwelling = 1.0 + 1.35 * Growth * (1.0 - smoothstep(0.015, 0.145, p.y));
     float width = (0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth)) * sqrt(pointTaper) * rootSwelling;
+    float filmWidth = 0.034 * Growth;
     float distance = abs(p.x - stemCenter(p.y, root, seed, reach));
     float body = lineMask(distance, width, aa) * step(p.y, reach);
     float highlight = lineMask(distance, width * 0.38, aa) * step(p.y, reach);
     float curvature = (1.0 - clamp(distance / max(width, aa), 0.0, 1.0)) * step(p.y, reach);
+    float mainFilmDistance = length(vec2(distance, max(p.y - reach, 0.0)));
+    float film = lineMask(mainFilmDistance, width + filmWidth, aa * 2.0);
 
     // Each twig extends from its existing parent; lowering Growth retracts the same paths.
-    for (int b = 0; b < 4; b++) {
-        float branchSeed = seed + float(b) * 3.71;
-        float anchor = 0.025 + float(b) * 0.051;
+    for (int b = 0; b < 5; b++) {
+        float branchSeed = seed + float(b) * 5.3;
+        float anchor = 0.035 + float(b) * 0.055;
         float branchLength = min(max(reach - anchor, 0.0), 0.062 + 0.03 * randomValue(branchSeed));
         float depth = p.y - anchor;
-        if (branchLength < 0.001 || depth < 0.0 || depth > branchLength + 0.018) {
+        if (branchLength < 0.001 || depth < 0.0 || depth > branchLength + 0.05) {
             continue;
         }
         float direction = (b % 2 == 0) ? -1.0 : 1.0;
-        float branchRoot = stemCenter(anchor, root, seed, reach);
-        float branchWriggle = 0.0032 * sin(Time * 0.9 + depth * 31.0 + branchSeed);
+        float branchRoot = anchoredStemCenter(anchor, root, seed) + noduleSideOffset(seed, b);
+        float branchWriggle = 0.0032 * sin(Time * 0.9 + depth * 31.0 + branchSeed) * smoothstep(0.0, 0.030, depth);
         float branchX = branchRoot + direction * (depth * 0.8 + 0.012 * sin(depth * 38.0)) + branchWriggle;
         float branchWidth = (0.0022 + 0.0034 * (1.0 - clamp(depth / branchLength, 0.0, 1.0))) * sqrt(Growth);
         float branchTip = 1.0 - smoothstep(branchLength - 0.007, branchLength, depth);
         float branchDistance = abs(p.x - branchX);
         body = max(body, lineMask(branchDistance, branchWidth, aa) * branchTip);
         curvature = max(curvature, (1.0 - clamp(branchDistance / max(branchWidth, aa), 0.0, 1.0)) * branchTip);
+        float branchFilmDistance = length(vec2(branchDistance, max(depth - branchLength, 0.0)));
+        film = max(film, lineMask(branchFilmDistance, branchWidth + filmWidth, aa * 2.0));
 
         // Forked, rounded veins replace foliage leaves.
         for (int fork = 0; fork < 2; fork++) {
             float anchorDepth = 0.024 + float(fork) * 0.026;
             float forkDepth = depth - anchorDepth;
             float forkReach = min(max(branchLength - anchorDepth, 0.0), 0.042);
-            if (forkReach > 0.001 && forkDepth >= 0.0 && forkDepth <= forkReach) {
+            if (forkReach > 0.001 && forkDepth >= 0.0 && forkDepth <= forkReach + 0.04) {
                 float forkRoot = branchRoot + direction * (anchorDepth * 0.8 + 0.012 * sin(anchorDepth * 38.0));
                 float forkX = forkRoot + direction * forkDepth * (fork == 0 ? -0.45 : 1.6);
                 float forkWidth = 0.0030 * sqrt(Growth);
                 float forkDistance = abs(p.x - forkX);
-                body = max(body, lineMask(forkDistance, forkWidth, aa));
-                curvature = max(curvature, 1.0 - clamp(forkDistance / max(forkWidth, aa), 0.0, 1.0));
+                float forkBodyGate = step(forkDepth, forkReach);
+                body = max(body, lineMask(forkDistance, forkWidth, aa) * forkBodyGate);
+                curvature = max(curvature, (1.0 - clamp(forkDistance / max(forkWidth, aa), 0.0, 1.0)) * forkBodyGate);
+                float forkFilmDistance = length(vec2(forkDistance, max(forkDepth - forkReach, 0.0)));
+                film = max(film, lineMask(forkFilmDistance, forkWidth + filmWidth * 0.72, aa * 2.0));
             }
         }
         highlight = max(highlight, lineMask(abs(p.x - branchX + 0.001), branchWidth * 0.3, aa) * branchTip);
     }
-// Rounded nodules follow the entire grown main vein, including its moving tip region.
+    // Each nodule appears when growth reaches a fixed point, stays anchored, and sources a branch.
     float nodule = 0.0;
     for (int n = 0; n < 5; n++) {
         float nSeed = seed + float(n) * 5.3;
-        float noduleDepth = reach * (0.08 + float(n) * 0.205);
-        float sideOffset = (randomValue(nSeed) - 0.5) * (0.010 + 0.005 * float(n % 2));
-        vec2 center = vec2(stemCenter(noduleDepth, root, seed, reach) + sideOffset, noduleDepth);
-        float radius = (0.006 + randomValue(nSeed + 2.0) * 0.006) * smoothstep(0.02, 0.18, Growth);
+        float noduleDepth = 0.035 + float(n) * 0.055;
+        float activation = smoothstep(noduleDepth, noduleDepth + 0.014, reach);
+        vec2 center = vec2(anchoredStemCenter(noduleDepth, root, seed) + noduleSideOffset(seed, n), noduleDepth);
+        float radius = (0.006 + randomValue(nSeed + 2.0) * 0.006) * activation;
         radius *= 1.0 + 0.38 * Growth * (1.0 - float(n) / 5.0);
         float noduleDistance = length(p - center);
-        nodule = max(nodule, 1.0 - smoothstep(radius, radius + aa, noduleDistance));
-        curvature = max(curvature, 1.0 - clamp(noduleDistance / max(radius, aa), 0.0, 1.0));
+        float noduleMask = 1.0 - smoothstep(radius, radius + aa, noduleDistance);
+        nodule = max(nodule, noduleMask);
+        curvature = max(curvature, (1.0 - clamp(noduleDistance / max(radius, aa), 0.0, 1.0)) * activation);
+        film = max(film, (1.0 - smoothstep(radius + filmWidth * 0.75,
+                radius + filmWidth * 0.75 + aa * 2.0, noduleDistance)) * activation);
     }
     body = max(body, nodule);
-    highlight = max(highlight, nodule * lineMask(length(p - vec2(root - 0.004, 0.015)), 0.005, aa));
-
-    // The slime film grows radially from this exact vine source, with a lumpy living front.
-    vec2 fromRoot = vec2((p.x - root) * 0.78, p.y);
-    float angle = atan(fromRoot.y, fromRoot.x);
-    float lumpyEdge = 0.009 * sin(angle * 7.0 + seed) + 0.005 * sin(angle * 13.0 - seed * 0.7);
-    float filmRadius = Growth * (0.105 + 0.035 * randomValue(seed + 8.0)) + lumpyEdge * Growth;
-    float film = 1.0 - smoothstep(filmRadius - 0.008, filmRadius + 0.003, length(fromRoot));
-    film *= smoothstep(0.005, 0.08, Growth);
+    highlight = max(highlight, nodule * curvature);
     return vec4(body, min(highlight, body), film, curvature);
 }
 
