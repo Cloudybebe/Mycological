@@ -30,8 +30,10 @@ public final class MithridatismSporeItem extends Item {
         ItemStack result = super.finishUsingItem(stack, level, entity);
         if (!level.isClientSide() && entity instanceof Player player) {
             int completedStage = player.getData(ModAttachments.MITHRIDATISM_STAGE);
-            if (stage == completedStage + 1) {
-                player.setData(ModAttachments.MITHRIDATISM_STAGE, stage);
+            if (stage <= completedStage + 1) {
+                if (stage == completedStage + 1) {
+                    player.setData(ModAttachments.MITHRIDATISM_STAGE, stage);
+                }
                 player.addEffect(new MobEffectInstance(ModEffects.CORDYCEPUAL_POISON,
                         STAGE_DURATIONS[stage], stage - 1));
             } else {
