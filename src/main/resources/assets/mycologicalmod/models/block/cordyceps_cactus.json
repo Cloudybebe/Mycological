@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/cactus",
+  "render_type": "minecraft:cutout",
   "textures": {
     "particle": "mycologicalmod:block/cordyceps_cactus_side",
     "bottom": "mycologicalmod:block/cordyceps_cactus_bottom",

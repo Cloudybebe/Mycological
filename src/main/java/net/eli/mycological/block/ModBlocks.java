@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -89,8 +88,8 @@ public final class ModBlocks {
 
     public static final DeferredBlock<Block> CORDYCEPS_MUSHROOM_BLOCK = BLOCKS.registerSimpleBlock(
             "cordyceps_mushroom_block", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM));
-    public static final DeferredBlock<CactusBlock> CORDYCEPS_CACTUS = BLOCKS.registerBlock(
-            "cordyceps_cactus", CactusBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CACTUS));
+    public static final DeferredBlock<CordycepsCactusBlock> CORDYCEPS_CACTUS = BLOCKS.registerBlock(
+            "cordyceps_cactus", CordycepsCactusBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CACTUS));
     public static final DeferredBlock<CordycepsBambooBlock> CORDYCEPS_BAMBOO = BLOCKS.registerBlock(
             "cordyceps_bamboo", CordycepsBambooBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO));
