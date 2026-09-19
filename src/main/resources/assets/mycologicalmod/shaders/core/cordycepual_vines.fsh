@@ -29,11 +29,6 @@ float noduleSideOffset(float seed, int index) {
     float nSeed = seed + float(index) * 5.3;
     return (randomValue(nSeed) - 0.5) * (0.010 + 0.005 * float(index % 2));
 }
-float filmSpread(float depth, float reach) {
-    float alongVine = smoothstep(0.12, 0.92, depth / max(reach, 0.001));
-    float growthRate = mix(sqrt(Growth), Growth * Growth, alongVine);
-    return mix(0.072, 0.010, alongVine) * growthRate;
-}
 float lineMask(float distance, float width, float aa) {
     return 1.0 - smoothstep(width, width + aa, distance);
 }
@@ -47,13 +42,10 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
     float pointTaper = smoothstep(0.0, 0.035, reach - p.y);
     float rootSwelling = 1.0 + 1.35 * Growth * (1.0 - smoothstep(0.015, 0.145, p.y));
     float width = (0.0036 + 0.0064 * sqrt(taper) * sqrt(Growth)) * sqrt(pointTaper) * rootSwelling;
-    float filmWidth = filmSpread(p.y, reach);
     float distance = abs(p.x - stemCenter(p.y, root, seed, reach));
     float body = lineMask(distance, width, aa) * step(p.y, reach);
     float highlight = lineMask(distance, width * 0.38, aa) * step(p.y, reach);
     float curvature = (1.0 - clamp(distance / max(width, aa), 0.0, 1.0)) * step(p.y, reach);
-    float mainFilmDistance = length(vec2(distance, max(p.y - reach, 0.0)));
-    float film = lineMask(mainFilmDistance, width + filmWidth, aa * 2.0);
 
     // Each twig extends from its existing parent; lowering Growth retracts the same paths.
     for (int b = 0; b < 5; b++) {
@@ -73,9 +65,6 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
         float branchDistance = abs(p.x - branchX);
         body = max(body, lineMask(branchDistance, branchWidth, aa) * branchTip);
         curvature = max(curvature, (1.0 - clamp(branchDistance / max(branchWidth, aa), 0.0, 1.0)) * branchTip);
-        float branchFilmDistance = length(vec2(branchDistance, max(depth - branchLength, 0.0)));
-        float branchFilmWidth = filmSpread(anchor + max(depth, 0.0), reach);
-        film = max(film, lineMask(branchFilmDistance, branchWidth + branchFilmWidth, aa * 2.0));
 
         // Forked, rounded veins replace foliage leaves.
         for (int fork = 0; fork < 2; fork++) {
@@ -90,9 +79,6 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
                 float forkBodyGate = step(forkDepth, forkReach);
                 body = max(body, lineMask(forkDistance, forkWidth, aa) * forkBodyGate);
                 curvature = max(curvature, (1.0 - clamp(forkDistance / max(forkWidth, aa), 0.0, 1.0)) * forkBodyGate);
-                float forkFilmDistance = length(vec2(forkDistance, max(forkDepth - forkReach, 0.0)));
-                float forkFilmWidth = filmSpread(anchor + anchorDepth + max(forkDepth, 0.0), reach);
-                film = max(film, lineMask(forkFilmDistance, forkWidth + forkFilmWidth * 0.72, aa * 2.0));
             }
         }
         highlight = max(highlight, lineMask(abs(p.x - branchX + 0.001), branchWidth * 0.3, aa) * branchTip);
@@ -110,12 +96,16 @@ vec4 vine(vec2 p, float root, float seed, float aa) {
         float noduleMask = 1.0 - smoothstep(radius, radius + aa, noduleDistance);
         nodule = max(nodule, noduleMask);
         curvature = max(curvature, (1.0 - clamp(noduleDistance / max(radius, aa), 0.0, 1.0)) * activation);
-        float noduleFilmWidth = filmSpread(noduleDepth, reach);
-        film = max(film, (1.0 - smoothstep(radius + noduleFilmWidth * 0.75,
-                radius + noduleFilmWidth * 0.75 + aa * 2.0, noduleDistance)) * activation);
     }
     body = max(body, nodule);
     highlight = max(highlight, nodule * curvature);
+    // The translucent film slowly expands inward from each edge source.
+    vec2 fromRoot = vec2((p.x - root) * 0.78, p.y);
+    float angle = atan(fromRoot.y, fromRoot.x);
+    float lumpyEdge = 0.009 * sin(angle * 7.0 + seed) + 0.005 * sin(angle * 13.0 - seed * 0.7);
+    float filmRadius = Growth * (0.105 + 0.035 * randomValue(seed + 8.0)) + lumpyEdge * Growth;
+    float film = 1.0 - smoothstep(filmRadius - 0.008, filmRadius + 0.003, length(fromRoot));
+    film *= smoothstep(0.005, 0.08, Growth);
     return vec4(body, min(highlight, body), film, curvature);
 }
 
