@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=south": {"model":"mycologicalmod:block/prototaxies_sprout_large","y":180},
+    "facing=north": {"model":"mycologicalmod:block/prototaxies_sprout_large"},
+    "facing=east": {"model":"mycologicalmod:block/prototaxies_sprout_large","y":90},
+    "facing=west": {"model":"mycologicalmod:block/prototaxies_sprout_large","y":270},
+    "facing=up": {"model":"mycologicalmod:block/prototaxies_sprout_large","x":90},
+    "facing=down": {"model":"mycologicalmod:block/prototaxies_sprout_large","x":270}
+  }
+}

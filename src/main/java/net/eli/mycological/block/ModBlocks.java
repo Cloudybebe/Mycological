@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -71,6 +72,13 @@ public final class ModBlocks {
             "prototaxies_sprout_small", PrototaxiesSproutBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FUNGUS)
                     .offsetType(BlockBehaviour.OffsetType.NONE));
+    public static final DeferredBlock<PrototaxiesSproutBlock> PROTOTAXIES_SPROUT_LARGE = BLOCKS.registerBlock(
+            "prototaxies_sprout_large", PrototaxiesSproutBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FUNGUS)
+                    .offsetType(BlockBehaviour.OffsetType.NONE));
+    public static final DeferredBlock<TallGrassBlock> PROTOTAXIES_SPROUT_TOP = BLOCKS.registerBlock(
+            "prototaxies_sprout_top", TallGrassBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS));
     public static final DeferredBlock<Block> PROTOTAXIES_PLANKS = BLOCKS.registerSimpleBlock(
             "prototaxies_planks", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS));
     public static final DeferredBlock<DoorBlock> PROTOTAXIES_DOOR = BLOCKS.registerBlock(

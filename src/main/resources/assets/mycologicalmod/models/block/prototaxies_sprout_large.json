@@ -1,0 +1,7 @@
+{
+  "parent":"mycologicalmod:block/prototaxies_sprout_small",
+  "textures":{
+    "0":"mycologicalmod:block/prototaxies_sprout_large",
+    "particle":"mycologicalmod:block/prototaxies_sprout_large"
+  }
+}
