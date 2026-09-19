@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -90,6 +91,16 @@ public final class ModBlocks {
             "cordyceps_mushroom_block", BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM));
     public static final DeferredBlock<CactusBlock> CORDYCEPS_CACTUS = BLOCKS.registerBlock(
             "cordyceps_cactus", CactusBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CACTUS));
+    public static final DeferredBlock<CordycepsBambooBlock> CORDYCEPS_BAMBOO = BLOCKS.registerBlock(
+            "cordyceps_bamboo", CordycepsBambooBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO));
+    public static final DeferredBlock<CordycepsBambooSaplingBlock> CORDYCEPS_BAMBOO_SAPLING = BLOCKS.registerBlock(
+            "cordyceps_bamboo_sapling", CordycepsBambooSaplingBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_SAPLING).lootFrom(CORDYCEPS_BAMBOO));
+    public static final DeferredBlock<FlowerPotBlock> POTTED_CORDYCEPS_BAMBOO = BLOCKS.registerBlock(
+            "potted_cordyceps_bamboo",
+            properties -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CORDYCEPS_BAMBOO, properties),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BAMBOO));
 
     public static final DeferredBlock<FenceBlock> PROTOTAXIES_FENCE = BLOCKS.registerBlock(
             "prototaxies_fence", FenceBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE));

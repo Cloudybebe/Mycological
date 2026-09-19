@@ -1,0 +1,7 @@
+{
+  "parent":"minecraft:block/potted_bamboo",
+  "textures":{
+    "bamboo":"mycologicalmod:block/cordyceps_bamboo_stalk",
+    "leaf":"mycologicalmod:block/cordyceps_bamboo_singleleaf"
+  }
+}

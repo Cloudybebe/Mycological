@@ -1,0 +1,18 @@
+{
+  "multipart": [
+    { "when": { "age": "0" }, "apply": [
+      { "model": "mycologicalmod:block/cordyceps_bamboo1_age0" },
+      { "model": "mycologicalmod:block/cordyceps_bamboo2_age0" },
+      { "model": "mycologicalmod:block/cordyceps_bamboo3_age0" },
+      { "model": "mycologicalmod:block/cordyceps_bamboo4_age0" }
+    ]},
+    { "when": { "age": "1" }, "apply": [
+      { "model": "mycologicalmod:block/cordyceps_bamboo1_age1" },
+      { "model": "mycologicalmod:block/cordyceps_bamboo2_age1" },
+      { "model": "mycologicalmod:block/cordyceps_bamboo3_age1" },
+      { "model": "mycologicalmod:block/cordyceps_bamboo4_age1" }
+    ]},
+    { "when": { "leaves": "small" }, "apply": { "model": "mycologicalmod:block/cordyceps_bamboo_small_leaves" }},
+    { "when": { "leaves": "large" }, "apply": { "model": "mycologicalmod:block/cordyceps_bamboo_large_leaves" }}
+  ]
+}

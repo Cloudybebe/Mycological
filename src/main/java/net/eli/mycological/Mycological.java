@@ -10,6 +10,8 @@ import net.eli.mycological.item.ModItems;
 import net.eli.mycological.item.ModCreativeModeTabs;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
@@ -52,7 +54,8 @@ public class Mycological {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-
+        event.enqueueWork(() -> ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(
+                ModBlocks.CORDYCEPS_BAMBOO.getId(), ModBlocks.POTTED_CORDYCEPS_BAMBOO));
     }
 
     // Add leaf litter to the natural blocks tab.
