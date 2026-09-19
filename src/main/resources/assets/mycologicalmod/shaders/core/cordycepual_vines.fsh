@@ -119,7 +119,7 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
     vec3 cells = cellularDistances(networkPoint, edgeSeed);
     float borderDistance = cells.y - cells.x;
     float flowWave = 0.5 + 0.5 * sin(Time * 1.12 - p.y * 38.0 + edgeSeed);
-    float organicWidth = 0.82 + 0.24 * sin(p.x * 21.0 + p.y * 16.0 + edgeSeed);
+    float organicWidth = 0.92 + 0.16 * sin(p.x * 21.0 + p.y * 16.0 + edgeSeed);
     float veinWidth = mix(0.060, 0.135, flowWave) * organicWidth;
     float web = (1.0 - smoothstep(veinWidth, veinWidth + 0.035, borderDistance)) * sheet;
 
@@ -131,7 +131,7 @@ vec4 slimeFromEdge(vec2 p, float span, float edgeSeed, float aa) {
     float roundedCurvature = clamp(1.0 - borderDistance / max(veinWidth, 0.001), 0.0, 1.0);
     // A one-pixel channel cannot show two shaded edges and a core. Give it a stable
     // lengthwise palette gradient until it is wide enough for a rounded cross-section.
-    float thinChannel = 1.0 - smoothstep(0.078, 0.112, veinWidth);
+    float thinChannel = 1.0 - smoothstep(0.055, 0.072, veinWidth);
     float linearShade = 0.30 + 0.52 * (0.5 + 0.5 * sin(
             warpedPoint.x * 19.0 + warpedPoint.y * 13.0 - Time * 0.38 + edgeSeed));
     float webCurvature = mix(roundedCurvature, linearShade, thinChannel);
