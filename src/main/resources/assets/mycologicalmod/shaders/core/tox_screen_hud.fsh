@@ -30,9 +30,10 @@ void main() {
         return;
     }
 
-    // Work on the source's 16 x 32 pixel grid so animation stays crisp at every GUI scale.
-    vec2 pixel = floor(texCoord * vec2(16.0, 32.0)) + 0.5;
-    float verticalShade = clamp((32.0 - pixel.y) / 32.0, 0.0, 1.0);
+    // The GUI sheet is authored at 32 x 64 pixels per frame, giving the liquid
+    // four times the pixel detail of the original while retaining hard pixel edges.
+    vec2 pixel = floor(texCoord * vec2(32.0, 64.0)) + 0.5;
+    float verticalShade = clamp((64.0 - pixel.y) / 64.0, 0.0, 1.0);
     float flicker = hash11(pixel.x * 7.0 + pixel.y * 19.0 + floor(Time * 3.0) * 0.37);
     float shade = 0.38 + verticalShade * 0.30 + (flicker - 0.5) * 0.10;
 
@@ -40,7 +41,7 @@ void main() {
     float refractionWave = sin(pixel.y * 0.72 + Time * 2.1
             + sin(pixel.x * 1.15 - Time * 1.3) * 1.4);
     float refractedBand = smoothstep(0.62, 0.94, refractionWave);
-    float glassEdge = 1.0 - smoothstep(0.0, 2.0, min(abs(pixel.x - 5.5), abs(pixel.x - 10.5)));
+    float glassEdge = 1.0 - smoothstep(0.0, 3.5, min(abs(pixel.x - 11.0), abs(pixel.x - 21.0)));
     shade += refractedBand * 0.18 + glassEdge * 0.08;
 
     float darkBubble = 0.0;
@@ -48,19 +49,19 @@ void main() {
     float popRing = 0.0;
     for (int i = 0; i < 5; i++) {
         float seed = float(i) * 13.7 + Stage * 31.1;
-        float speed = 1.5 + hash11(seed + 2.0) * 1.8;
+        float speed = 3.0 + hash11(seed + 2.0) * 3.6;
         float cycle = 7.0 + hash11(seed + 4.0) * 5.0;
         float age = mod(Time + hash11(seed) * cycle, cycle);
-        vec2 center = vec2(6.0 + hash11(seed + 1.0) * 4.0,
-                30.0 - age * speed);
+        vec2 center = vec2(12.0 + hash11(seed + 1.0) * 8.0,
+                60.0 - age * speed);
         center.x += sin(Time * 1.7 + seed + center.y * 0.35) * 0.45;
-        float radius = 0.7 + hash11(seed + 3.0) * 1.15;
+        float radius = 1.4 + hash11(seed + 3.0) * 2.3;
         float distanceToBubble = length(pixel - center);
         darkBubble = max(darkBubble, 1.0 - smoothstep(radius - 0.25, radius + 0.35, distanceToBubble));
         brightRim = max(brightRim, 1.0 - smoothstep(0.20, 0.65, abs(distanceToBubble - radius)));
 
         float popLife = smoothstep(cycle - 1.0, cycle - 0.25, age);
-        float popRadius = radius + popLife * 2.4;
+        float popRadius = radius + popLife * 4.8;
         float ring = 1.0 - smoothstep(0.20, 0.70, abs(distanceToBubble - popRadius));
         popRing = max(popRing, ring * popLife);
     }
