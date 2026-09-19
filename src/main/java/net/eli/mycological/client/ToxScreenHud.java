@@ -37,12 +37,21 @@ public final class ToxScreenHud {
     }
 
     public static int displayedStage(Player player) {
+        var effect = player.getEffect(ModEffects.CORDYCEPUAL_POISON);
+        if (effect == null) {
+            return 0;
+        }
+
         int stage = player.getData(ModAttachments.MITHRIDATISM_STAGE);
+        if (stage <= 0) {
+            return 0;
+        }
+
+        // Only this mod's Mithridatism instance may drive the meter. Keeping the
+        // saved progression as a second gate also prevents the penalty instance
+        // (amplifier 4) from masquerading as a completed fourth stage.
+        stage = Math.min(stage, Math.min(effect.getAmplifier() + 1, 4));
         if (stage == 4) {
-            var effect = player.getEffect(ModEffects.CORDYCEPUAL_POISON);
-            if (effect == null) {
-                return 0;
-            }
             if (effect.getDuration() <= 8 * 20) {
                 return Math.max(1, (effect.getDuration() - 1) / (2 * 20) + 1);
             }

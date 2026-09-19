@@ -87,7 +87,7 @@ public class Mycological {
     public void onPlayerTick(PlayerTickEvent.Post event) {
         var player = event.getEntity();
         if (!player.level().isClientSide()
-                && player.getData(ModAttachments.MITHRIDATISM_STAGE) == 4
+                && player.getData(ModAttachments.MITHRIDATISM_STAGE) > 0
                 && !player.hasEffect(ModEffects.CORDYCEPUAL_POISON)) {
             player.setData(ModAttachments.MITHRIDATISM_STAGE, 0);
         }
